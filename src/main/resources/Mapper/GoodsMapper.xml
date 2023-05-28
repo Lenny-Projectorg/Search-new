@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--namespace属性:指定当前映射文件和哪一个mapper接口映射-->
+<mapper namespace="com.find.search.mapper.GoodsMapper">
+
+    <resultMap id="goodsEntityMap" type="com.find.search.entity.Goods">
+        <!--将表的字段和类的属性不一致的字段进行匹配指定，名称一致的字段可以省略不写
+            配合完成名称不一致的映射
+            column属性：表示数据库表中的资源名称
+            property：表示java定义类中的属性名称
+        -->
+        <!--在定义映射规则时主键时不可以省略的-->
+        <id column="goods_id" property="goodsId"></id>
+        <result column="goods_name" property="goodsName"></result>
+        <result column="goods_img" property="goodsImg"></result>
+        <result column="goods_feature" property="goodsFeature"></result>
+        <result column="goods_distime" property="goodsDistime"></result>
+        <result column="goods_displace" property="goodsDisplace"></result>
+        <result column="user_id" property="userId"></result>
+        <result column="user_name" property="userName"></result>
+        <result column="user_phone" property="userPhone"></result>
+        <result column="goods_success" property="goodsSuccess"></result>
+    </resultMap>
+
+    <!--    查询所有失物招领-->
+    <select id="selectAllGoods" resultMap="goodsEntityMap">
+        SELECT * FROM goods where goods_success=0
+    </select>
+
+    <!-- 查找指定用户发布的寻物启事-->
+    <select id="selectGoodsByUserId" resultMap="goodsEntityMap">
+        select * from goods
+        <where>
+            user_id = #{userId}
+            <if test="goodsName!=null and goodsName!=''">
+                and goods_name like concat('%',#{goodsName},'%')
+            </if>
+        </where>
+    </select>
+
+<!--    删除指定寻物启事-->
+    <delete id="deleteGoodsByGoodsId" parameterType="com.find.search.entity.Goods">
+        delete from goods where goods_id = #{goodsId}
+    </delete>
+
+<!--    添加寻物启事信息-->
+    <insert id="insertGoods" parameterType="com.find.search.entity.Goods">
+        insert into goods(goods_name,goods_img,goods_feature,goods_distime,goods_displace,user_id,user_name,user_phone,goods_success)
+        values (#{goodsName},#{goodsImg},#{goodsFeature},#{goodsDistime},#{goodsDisplace},#{userId},#{userName},#{userPhone},#{goodsSuccess})
+    </insert>
+
+
+<!--    修改指定用户发布的寻物启事-->
+    <update id="updateGoods" parameterType="com.find.search.entity.Goods">
+        update goods
+        <set>
+            <if test="goodsName!='' and goodsName!=null">
+                goods_name = #{goodsName},
+            </if>
+            <if test="goodsImg!='' and goodsImg!=null">
+                goods_img = #{goodsImg},
+            </if>
+            <if test="goodsFeature!='' and goodsFeature!=null">
+                goods_feature = #{goodsFeature},
+            </if>
+            <if test="goodsDistime!=null">
+                goods_distime = #{goodsDistime},
+            </if>
+            <if test="goodsDisplace!='' and goodsDisplace!=null">
+                goods_displace = #{goodsDisplace},
+            </if>
+            <if test="userName!='' and userName!=null">
+                user_name = #{userName},
+            </if>
+            <if test="userPhone!='' and userPhone!=null">
+                user_phone = #{userPhone},
+            </if>
+            <if test="goodsSuccess!='' and goodsSuccess!=null">
+                goods_success = #{goodsSuccess}
+            </if>
+        </set>
+        where goods_id = #{goodsId}
+    </update>
+
+
+
+</mapper>

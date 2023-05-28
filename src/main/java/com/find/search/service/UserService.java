@@ -1,0 +1,19 @@
+package com.find.search.service;
+
+import com.find.search.entity.User;
+
+import java.util.HashMap;
+
+public interface UserService {
+    //用户注册
+    HashMap<String, Object> insertUser(User user);
+
+    //登录验证查询
+    HashMap<String, Object> selectLogin(User user);
+
+    //发送验证码
+    HashMap<String, Object> sendCode(String userEmail);
+
+    //根据用户邮箱获取用户id
+    HashMap<String,Object> selectByUserEmail(String userEmail);
+}

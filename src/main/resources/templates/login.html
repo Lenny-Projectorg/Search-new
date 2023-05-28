@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>login</title>
+
+    <!--    导入vue-->
+    <script src="/res/js/vue.js" type="text/javascript"></script>
+    <!--    导入element-ui组件-->
+    <script src="/res/js/index.js" type="text/javascript"></script>
+    <link href="/res/css/index.css" rel="stylesheet">
+    <!--    导入jquery-->
+    <script src="/res/js/jquery.min.js" type="text/javascript"></script>
+
+</head>
+<style>
+    body{
+        background-color: #3a8ee6;
+        background-attachment: fixed;
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-size: cover;
+    }
+    .el-card{
+        width: 400px;
+        margin: 0 auto;
+        margin-top: 180px;
+        background-color: rgba(255,255,255,0.5);
+    }
+    .box-card{
+        border-radius: 15px;
+        border: 0px;
+    }
+    .code_p{
+        text-align: center;
+    }
+    .submit{
+        /*margin-left: 38%;*/
+        justify-content: center;
+    }
+    .a_div{
+        float: right;
+        margin-top: -50px;
+    }
+
+</style>
+<body>
+<div id="login">
+    <el-card class="box-card">
+        <div slot="header"  class="clearfix">
+            <div style="text-align: center;font-size: 30px">登录</div>
+        </div>
+        <el-form id="form" :rules="formRules" ref="user" :model="user">
+
+            <el-form-item prop="userEmail">
+                <el-input prefix-icon="el-icon-message" v-model="user.userEmail" type="text" placeholder="请输入邮箱"></el-input>
+            </el-form-item>
+
+            <el-form-item prop="userPassword">
+                <el-input prefix-icon="el-icon-lock" v-model="user.userPassword" type="password" placeholder="请输入密码" show-password></el-input>
+            </el-form-item>
+
+            <el-form-item>
+                <p class="code_p">
+                    <el-button @click="loginButton" type="primary" class="submit">登录</el-button>
+                    <div class="a_div">没有账号?去<a href="/register">注册</a></div>
+                </p>
+            </el-form-item>
+
+        </el-form>
+    </el-card>
+</div>
+<script>
+    new Vue({
+        el:"#login",
+        data(){
+            return{
+                user:{
+                    userEmail: "",
+                    userPassword:"",
+                },
+                //申明表单验证规则
+                formRules:{
+                    userEmail:[
+                        {required:true,message:"邮箱不能为空",trigger:"blur"}
+                    ],
+                    userPassword:[
+                        {required:true,message:"密码不能为空",trigger:"blur"}
+                    ],
+
+                }
+            }
+        },
+        methods:{
+            //表单检验  检验表单是否成功
+            register_check(){
+                var result;
+                this.$refs['user'].validate((valid)=>{
+                    if(valid){
+                        result=true;
+                    }else{
+                        result=false;
+                    }
+                })
+                return result;
+            },
+            loginButton(){
+                var _this = this;
+                //提交前判断表单验证
+                var boo = _this.register_check()
+                if(boo){
+                    $.ajax({
+                        url:"/user/login",
+                        type:"post",
+                        contentType:"application/json",//表示发送的是json格式数据
+                        dataType:"json",//表示接受后端传来的json数据
+                        data:JSON.stringify(_this.user),//将user转换成JSON格式字符串
+                        success:function (res) {
+                            console.log(res)
+                            console.log(_this.user.userEmail)
+                            // console.log("token===",res.data.token)
+                            // console.log("id===",res.data.id)
+                            //弹框提示
+                            _this.$message({
+                                type:res.info==="登录成功"?"success":"error",
+                                message:res.info,
+                            })
+                            if(res.info==="登录成功"){
+                                //存储用户验证信息
+                                sessionStorage.setItem("userEmail",_this.user.userEmail);
+                                //页面跳转首页
+                                setTimeout("location.href='/index'",2000)
+
+                            }
+                        }
+
+                    })
+                }
+            }
+        }
+    })
+</script>
+</body>
+
+</html>

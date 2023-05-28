@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--namespace属性:指定当前映射文件和哪一个mapper接口映射-->
+<mapper namespace="com.find.search.mapper.UserMapper">
+
+    <resultMap id="userEntityMap" type="com.find.search.entity.User">
+        <!--将表的字段和类的属性不一致的字段进行匹配指定，名称一致的字段可以省略不写
+            配合完成名称不一致的映射
+            column属性：表示数据库表中的资源名称
+            property：表示java定义类中的属性名称
+        -->
+        <!--在定义映射规则时主键时不可以省略的-->
+        <id column="user_id" property="userId"></id>
+        <result column="user_name" property="userName"></result>
+        <result column="user_email" property="userEmail"></result>
+        <result column="user_password" property="userPassword"></result>
+        <result column="user_phone" property="userPhone"></result>
+        <result column="user_address" property="userAddress"></result>
+        <result column="salt" property="salt"></result>
+        <result column="power" property="power"></result>
+    </resultMap>
+
+    <!--
+        useGeneratedKeys属性：表示开启某个字段的值递增（通常主键设置为递增）
+        keyProperty属性：表示将表中的哪个字段作为主键递增
+    -->
+    <insert id="insertUser" useGeneratedKeys="true" keyProperty="userId">
+        INSERT INTO user (user_name,user_email,user_password,user_phone,user_address,salt,power)
+        VALUES (#{userName},#{userEmail},#{userPassword},#{userPhone},#{userAddress},#{salt},#{power})
+    </insert>
+
+<!--    通过邮箱查询用户-->
+    <select id="selectByUserEmail" resultMap="userEntityMap" parameterType="String">
+        SELECT * FROM user WHERE user_email = #{userEmail}
+    </select>
+
+<!--    判断登录信息-->
+    <select id="selectLoginIndo" resultMap="userEntityMap" parameterType="com.find.search.entity.User">
+        SELECT * FROM user WHERE user_email = #{userEmail} and user_password = #{userPassword}
+    </select>
+
+</mapper>

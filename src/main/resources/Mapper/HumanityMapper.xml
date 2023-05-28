@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--namespace属性:指定当前映射文件和哪一个mapper接口映射-->
+<mapper namespace="com.find.search.mapper.HumanityMapper">
+
+    <resultMap id="humanityEntityMap" type="com.find.search.entity.Humanity">
+        <!--将表的字段和类的属性不一致的字段进行匹配指定，名称一致的字段可以省略不写
+            配合完成名称不一致的映射
+            column属性：表示数据库表中的资源名称
+            property：表示java定义类中的属性名称
+        -->
+        <!--在定义映射规则时主键时不可以省略的-->
+        <id column="humanity_id" property="humanityId"></id>
+        <result column="humanity_name" property="humanityName"></result>
+        <result column="humanity_sex" property="humanitySex"></result>
+        <result column="humanity_age" property="humanityAge"></result>
+        <result column="humanity_birthday" property="humanityBirthday"></result>
+        <result column="humanity_distime" property="humanityDistime"></result>
+        <result column="humanity_displace" property="humanityDisplace"></result>
+        <result column="humanity_img" property="humanityImg"></result>
+        <result column="humanity_feature" property="humanityFeature"></result>
+        <result column="user_id" property="userId"></result>
+        <result column="user_name" property="userName"></result>
+        <result column="user_phone" property="userPhone"></result>
+        <result column="relationship" property="relationship"></result>
+        <result column="humanity_success" property="humanitySuccess"></result>
+    </resultMap>
+
+    <!--   查询用户-->
+    <select id="selectAllHumanity" resultMap="humanityEntityMap">
+        SELECT * FROM humanity where humanity_success=0
+    </select>
+
+    <!--   查询指定用户user_id发布的信息-->
+    <select id="selectHumanityByUserId" resultMap="humanityEntityMap">
+        SELECT * FROM humanity where user_id=#{userId}
+    </select>
+
+<!--    根据humanityId删除信息-->
+    <delete id="delHumanity" parameterType="com.find.search.entity.Humanity">
+        delete from humanity where humanity_id = #{humanityId}
+    </delete>
+
+<!--    插入寻人启事信息-->
+    <insert id="insertHumanity" parameterType="com.find.search.entity.Humanity">
+        insert into humanity(humanity_name,humanity_sex,humanity_age,humanity_birthday,humanity_distime,humanity_displace,humanity_img,humanity_feature,user_id,user_name,user_phone,relationship,humanity_success)
+        values(#{humanityName},#{humanitySex},#{humanityAge},#{humanityBirthday},#{humanityDistime},#{humanityDisplace},#{humanityImg},#{humanityFeature},#{userId},#{userName},#{userPhone},#{relationship},#{humanitySuccess})
+    </insert>
+
+<!--    修改指定的寻人启事信息-->
+    <update id="updateHumanityInfo" parameterType="com.find.search.entity.Humanity">
+        update humanity
+        <set>
+            <if test="humanityName!=null and humanityName!=''">
+                humanity_name = #{humanityName},
+            </if>
+            <if test="humanitySex!=null and humanitySex!=''">
+                humanity_sex = #{humanitySex},
+            </if>
+            <if test="humanityAge!=null and humanityAge!=''">
+                humanity_age = #{humanityAge},
+            </if>
+            <if test="humanityBirthday!=null">
+                humanity_birthday = #{humanityBirthday},
+            </if>
+            <if test="humanityDistime!=null">
+                humanity_distime = #{humanityDistime},
+            </if>
+            <if test="humanityDisplace!=null and humanityDisplace!=''">
+                humanity_displace = #{humanityDisplace},
+            </if>
+            <if test="humanityImg!=null and humanityImg!=''">
+                humanity_img = #{humanityImg},
+            </if>
+            <if test="humanityFeature!=null and humanityFeature!=''">
+                humanity_feature = #{humanityFeature},
+            </if>
+            <if test="userName!=null and userName!=''">
+                user_name = #{userName},
+            </if>
+            <if test="userPhone!=null and userPhone!=''">
+                user_phone = #{userPhone},
+            </if>
+            <if test="relationship!=null and relationship!=''">
+                relationship = #{relationship},
+            </if>
+            <if test="humanitySuccess!=null and humanitySuccess!=''">
+                humanity_success = #{humanitySuccess},
+            </if>
+        </set>
+        where humanity_id = #{humanityId}
+    </update>
+
+
+
+
+</mapper>

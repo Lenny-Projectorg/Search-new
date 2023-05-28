@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--namespace属性:指定当前映射文件和哪一个mapper接口映射-->
+<mapper namespace="com.find.search.mapper.FoundMapper">
+
+    <resultMap id="foundEntityMap" type="com.find.search.entity.Found">
+        <!--将表的字段和类的属性不一致的字段进行匹配指定，名称一致的字段可以省略不写
+            配合完成名称不一致的映射
+            column属性：表示数据库表中的资源名称
+            property：表示java定义类中的属性名称
+        -->
+        <!--在定义映射规则时主键时不可以省略的-->
+        <id column="found_id" property="foundId"></id>
+        <result column="found_name" property="foundName"></result>
+        <result column="found_img" property="foundImg"></result>
+        <result column="found_feature" property="foundFeature"></result>
+        <result column="found_place" property="foundPlace"></result>
+        <result column="user_id" property="userId"></result>
+        <result column="user_name" property="userName"></result>
+        <result column="user_phone" property="userPhone"></result>
+        <result column="found_username" property="foundUsername"></result>
+        <result column="found_success" property="foundSuccess"></result>
+    </resultMap>
+
+    <!--    通过邮箱查询用户-->
+    <select id="selectAllFound" resultMap="foundEntityMap">
+        SELECT * FROM found where found_success=0
+    </select>
+
+    <!-- 查找指定用户发布的失物招领-->
+    <select id="selectFoundByUserId" resultMap="foundEntityMap">
+        select * from found
+        <where>
+            user_id = #{userId}
+            <if test="foundName!=null and foundName!=''">
+                and found_name like concat('%',#{foundName},'%')
+            </if>
+        </where>
+    </select>
+
+<!--    添加失物招领信息-->
+    <insert id="insertFound" parameterType="com.find.search.entity.Found">
+        insert into found(found_name,found_img,found_feature,found_place,user_id,user_name,user_phone,found_username,found_success)
+        values (#{foundName},#{foundImg},#{foundFeature},#{foundPlace},#{userId},#{userName},#{userPhone},#{foundUsername},#{foundSuccess})
+    </insert>
+
+
+
+    <!--    修改指定用户发布的寻物启事-->
+    <update id="updateFound" parameterType="com.find.search.entity.Found">
+        update found
+        <set>
+            <if test="foundName!='' and foundName!=null">
+                found_name = #{foundName},
+            </if>
+            <if test="foundImg!='' and foundImg!=null">
+                found_img = #{foundImg},
+            </if>
+            <if test="foundFeature!='' and foundFeature!=null">
+                found_feature = #{foundFeature},
+            </if>
+            <if test="foundPlace!='' and foundPlace!=null">
+                found_place = #{foundPlace},
+            </if>
+            <if test="userName!='' and userName!=null">
+                user_name = #{userName},
+            </if>
+            <if test="userPhone!='' and userPhone!=null">
+                user_phone = #{userPhone},
+            </if>
+            <if test="foundUsername!=null">
+                found_username = #{foundUsername},
+            </if>
+
+            <if test="foundSuccess!='' and foundSuccess!=null">
+                found_success = #{foundSuccess}
+            </if>
+        </set>
+        where found_id = #{foundId}
+    </update>
+
+
+
+</mapper>

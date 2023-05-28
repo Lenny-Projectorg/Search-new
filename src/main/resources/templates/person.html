@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>首页</title>
+
+    <!--    导入vue-->
+    <script src="/res/js/vue.js" type="text/javascript"></script>
+    <!--    导入element-ui组件-->
+    <script src="/res/js/index.js" type="text/javascript"></script>
+    <link href="/res/css/index.css" rel="stylesheet">
+    <!--    导入jquery-->
+    <script src="/res/js/jquery.min.js" type="text/javascript"></script>
+</head>
+<style>
+    .el-header, .el-footer {
+        background-color: #B3C0D1;
+        color: #333;
+        text-align: center;
+        line-height: 60px;
+    }
+
+    .el-aside {
+        background-color: #D3DCE6;
+        color: #333;
+        text-align: center;
+        line-height: 200px;
+
+    }
+
+    .el-main {
+        background-color: #E9EEF3;
+        color: #333;
+        text-align: center;
+        line-height: 160px;
+        height: 585px;
+    }
+
+    body > .el-container {
+        margin-bottom: 40px;
+    }
+
+    .el-container:nth-child(5) .el-aside,
+    .el-container:nth-child(6) .el-aside {
+        line-height: 260px;
+    }
+
+    .el-container:nth-child(7) .el-aside {
+        line-height: 320px;
+    }
+    .el-col-12 {
+        width: 100%;
+    }
+    .li_style{
+        border: #3e3e3e solid 1px;
+        height: 150px;
+        list-style: none;
+        display: flex;
+        justify-content: space-around;
+    }
+</style>
+<body>
+
+<div id="person">
+    <el-container>
+        <el-header>Header</el-header>
+        <!--        Asia-->
+        <el-container>
+            <el-aside width="200px">
+                <el-row class="tac">
+                    <el-col :span="12">
+                        <el-menu
+                                default-active="4-1"
+                                class="el-menu-vertical-demo"
+                                @open="handleOpen"
+                                @close="handleClose">
+
+                            <el-menu-item index="1" @click="hrefHumanity">
+                                <i class="el-icon-menu"></i>
+                                <span slot="title">寻人启事</span>
+                            </el-menu-item>
+
+                            <el-menu-item index="2" @click="hrefGoods">
+                                <i class="el-icon-menu"></i>
+                                <span slot="title">寻物启事</span>
+                            </el-menu-item>
+
+                            <el-menu-item index="3" @click="hrefFound">
+                                <i class="el-icon-menu"></i>
+                                <span slot="title">失物招领</span>
+                            </el-menu-item>
+
+                            <el-submenu index="4">
+
+                                <template slot="title">
+                                    <i class="el-icon-location"></i>
+                                    <span>我要发布</span>
+                                </template>
+                                <el-menu-item-group>
+                                    <el-menu-item @click="hrefPerson" index="4-1">我要寻人</el-menu-item>
+                                    <el-menu-item @click="hrefFindGoods" index="4-2">我要寻物</el-menu-item>
+                                    <el-menu-item @click="hrefLost" index="4-3">失物招领</el-menu-item>
+                                </el-menu-item-group>
+
+                            </el-submenu>
+
+
+                            <el-submenu index="5">
+
+                                <template slot="title">
+                                    <i class="el-icon-location"></i>
+                                    <span>个人中心</span>
+                                </template>
+                                <el-menu-item-group>
+                                    <el-menu-item index="5-1">个人信息</el-menu-item>
+                                    <el-menu-item index="5-2">修改密码</el-menu-item>
+                                    <el-menu-item index="5-3">退出登录</el-menu-item>
+                                </el-menu-item-group>
+
+                            </el-submenu>
+
+                        </el-menu>
+                    </el-col>
+                </el-row>
+            </el-aside>
+
+
+            <el-container>
+                <!--Main界面-->
+                <el-main>
+
+                    <div>
+                        <ul>
+                            <li class="li_style">
+                                <div>照片</div>
+                                <div>姓名</div>
+                                <div>年龄</div>
+                                <div>性别</div>
+                                <div>出生日期</div>
+                                <div>特征</div>
+                                <div>失踪地点</div>
+                                <div>失踪时间</div>
+                                <div>联系人</div>
+                                <div>联系人手机号</div>
+                                <div>关系</div>
+                                <div>是否找到</div>
+                                <div><button @click="insertView">我要发布</button></div>
+                            </li>
+                            <li v-for="(item,index) in humanityInfo" class="li_style">
+                                <div>
+                                    <img style="width: 120px;height: 150px" :src="item.humanityImg">
+                                </div>
+                                <div>{{item.humanityName}}</div>
+                                <div>{{item.humanitySex}}</div>
+                                <div>{{item.humanityAge}}</div>
+                                <div>{{item.humanityBirthday}}</div>
+                                <div>{{item.humanityFeature}}</div>
+                                <div>{{item.humanityDisplace}}</div>
+                                <div>{{item.humanityDistime}}</div>
+                                <div>{{item.userName}}</div>
+                                <div>{{item.userPhone}}</div>
+                                <div>{{item.relationship}}</div>
+                                <div>{{item.humanitySuccess}}</div>
+                                <div>
+                                    <button @click="updateView(item)">修改</button>
+                                    <button @click="delHumanity(item)">删除</button>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!--弹框界面-->
+                    <el-dialog :title="messageTitle" :visible.sync="dialogFormVisible">
+                        <el-form>
+                            <el-form-item label="照片" :label-width="formLabelWidth">
+                                <el-input v-model="humanity.humanityImg" autocomplete="off"></el-input>
+                            </el-form-item>
+                            <el-form-item label="姓名" :label-width="formLabelWidth">
+                                <el-input v-model="humanity.humanityName" autocomplete="off"></el-input>
+                            </el-form-item>
+                            <el-form-item label="年龄" :label-width="formLabelWidth">
+                                <el-input v-model="humanity.humanityAge" autocomplete="off"></el-input>
+                            </el-form-item>
+                            <el-form-item label="性别" :label-width="formLabelWidth">
+                                <el-select v-model="humanity.humanitySex" placeholder="请选择失踪者性别">
+                                    <el-option label="男" value="男"></el-option>
+                                    <el-option label="女" value="女"></el-option>
+                                </el-select>
+                            </el-form-item>
+                            <el-form-item label="出生日期" :label-width="formLabelWidth">
+                                <div class="block">
+                                    <el-date-picker
+                                            v-model="humanity.humanityBirthday"
+                                            type="date"
+                                            value-format="yyyy-MM-dd"
+                                            placeholder="选择日期">
+                                    </el-date-picker>
+                                </div>
+                            </el-form-item>
+                            <el-form-item label="特征" :label-width="formLabelWidth">
+                                <el-input v-model="humanity.humanityFeature" autocomplete="off"></el-input>
+                            </el-form-item>
+                            <el-form-item label="失踪地点" :label-width="formLabelWidth">
+                                <el-input v-model="humanity.humanityDisplace" autocomplete="off"></el-input>
+                            </el-form-item>
+                            <el-form-item label="失踪时间" :label-width="formLabelWidth">
+                                <div class="block">
+                                    <el-date-picker
+                                            v-model="humanity.humanityDistime"
+                                            type="datetime"
+                                            value-format="yyyy-MM-dd HH:mm:ss"
+                                            placeholder="选择日期时间">
+                                    </el-date-picker>
+                                </div>
+                            </el-form-item>
+                            <el-form-item label="联系人姓名" :label-width="formLabelWidth">
+                                <el-input v-model="humanity.userName" autocomplete="off"></el-input>
+                            </el-form-item>
+                            <el-form-item label="联系人手机号" :label-width="formLabelWidth">
+                                <el-input v-model="humanity.userPhone" autocomplete="off"></el-input>
+                            </el-form-item>
+                            <el-form-item label="与失踪者关系" :label-width="formLabelWidth">
+                                <el-input v-model="humanity.relationship" autocomplete="off"></el-input>
+                            </el-form-item>
+                            <el-form-item label="是否找回" :label-width="formLabelWidth">
+                                <el-select v-model="humanity.humanitySuccess" placeholder="请选择是否找回">
+                                    <el-option label="已找回" value=1></el-option>
+                                    <el-option label="未找到" value=0></el-option>
+                                </el-select>
+                            </el-form-item>
+
+                        </el-form>
+                        <div slot="footer" class="dialog-footer">
+                            <el-button @click="cancel">取 消</el-button>
+                            <el-button type="primary" @click="ensure">确 定</el-button>
+                        </div>
+                    </el-dialog>
+
+                    <!--分页显示-->
+                    <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="curPage"
+                                   :page-sizes="[2, 3, 4, 5]" :page-size="humanity.row" layout="total, sizes, prev, pager, next, jumper" :total="totalCount">
+                    </el-pagination>
+
+                </el-main>
+                <!--Footer界面-->
+                <el-footer>Footer</el-footer>
+            </el-container>
+        </el-container>
+    </el-container>
+</div>
+
+<script>
+    new Vue({
+        el:"#person",
+        data(){
+            return{
+                humanity:{
+                    humanityId: "",
+                    humanityName: "",
+                    humanitySex: "",
+                    humanityAge: "",
+                    humanityBirthday: "",
+                    humanityDistime: "",
+                    humanityDisplace: "",
+                    humanityImg: "",
+                    humanityFeature: "",
+                    userId: "",
+                    userName: "",
+                    userPhone: "",
+                    relationship: "",
+                    humanitySuccess: "",
+                    page: 1,//页码
+                    row: 3//每页显示条数
+                },
+                totalCount: 0,//总条数
+                totalPage: 0,//总页数
+                curPage: 0,//当前页
+                humanityInfo:[],//接收从后端接收的寻人启事数据
+                formLabelWidth: '120px',
+                dialogFormVisible: false,
+                messageTitle:"",
+            }
+        },
+        methods:{
+            //跳转到寻人启事页
+            hrefHumanity(){
+                window.location.href="index"
+            },
+            //跳转到寻物启事页面
+            hrefGoods(){
+                window.location.href="goodsView"
+            },
+            //跳转到失物招领页面
+            hrefFound(){
+                window.location.href="foundView"
+            },
+            //跳转到我要寻人界面
+            hrefPerson(){
+                window.location.href="personView"
+            },
+            //跳转到我要寻物界面
+            hrefFindGoods(){
+                window.location.href="findGoodsView"
+            },
+            //跳转到发布失物招领界面
+            hrefLost(){
+                window.location.href="lostView"
+            },
+            //跳转到个人信息界面
+            //跳转到修改密码界面
+            handleOpen(key, keyPath) {
+                console.log(key, keyPath);
+            },
+            handleClose(key, keyPath) {
+                console.log(key, keyPath);
+            },
+            //请求寻人启事数据
+            selectAll(){
+                var _this = this;
+                $.ajax({
+                    url:"/humanity/selectHumanityByUserId",
+                    type:"post",
+                    dataType:"json",//从后端接收json格式的数据
+                    //获取缓存的用户邮箱
+                    data:{
+                        userEmail:sessionStorage.getItem("userEmail")
+                    },
+                    success:function (res){
+                        // console.log(res)
+                        _this.humanityInfo=res
+                    }
+
+                })
+            },
+            handleSizeChange(val) { //下来框选中条数触发的事件
+                //更改每页显示条数
+                this.humanity.row = val;
+                //刷新
+                this.loadDataPage();
+
+            },
+            //定义改变页码和每页显示条数的方法：
+            handleCurrentChange(val) { //当前页触发的事件
+                //更改页码
+                this.humanity.page = val;
+                //刷新
+                this.loadDataPage();
+            },
+            //定义获取分页数据的方法：
+            // 分页查询
+            loadDataPage: function() {
+                var _this = this;
+                // console.log(sessionStorage.getItem("userEmail"))
+                // console.log(_this.humanity.page)
+                // console.log(_this.humanity.row)
+                $.ajax({
+                    url: "/humanity/findPersonByPage",
+                    type: "get",
+                    dataType:"json",//表示接受后端传来的json数据
+                    contentType:"application/json",//表示发送的是json格式数据
+                    //获取缓存的用户邮箱
+                    data:{
+                        page:_this.humanity.page,
+                        pageRow:_this.humanity.row,
+                        userEmail:sessionStorage.getItem("userEmail")
+                    },
+
+                    // data:JSON.stringify(_this.humanity.page,_this.humanity.row),//将user转换成JSON格式字符串
+                    success: function(data) { //表示数据请求成功之后执行的函数
+                        // console.log(data);
+                        _this.humanityInfo= data.list;
+                        _this.totalCount = data.total;
+                        _this.totalPage = data.totalPage;
+
+                    }
+                })
+            },
+            //判断弹框类型，执行对应确认、取消操作
+            cancel(){
+                var _this = this
+                // console.log(_this.messageTitle)
+                if(_this.messageTitle=="修改寻人启事信息"){
+                    _this.cancelUpdate();
+                }else if(_this.messageTitle=="添加寻人启事"){
+                    _this.cancelInsert();
+                }
+            },
+            ensure(){
+                var _this = this
+                // console.log(_this.messageTitle)
+                if(_this.messageTitle=="修改寻人启事信息"){
+                    _this.ensureUpdate();
+                }else if(_this.messageTitle=="添加寻人启事"){
+                    _this.ensureInsert();
+                }
+            },
+            //弹出修改界面弹框
+            updateView(data){
+                var _this = this
+                _this.messageTitle="修改寻人启事信息"
+                // console.log(data)
+                //显示修改信息弹框
+                _this.dialogFormVisible = true
+                //向表单传入数据
+                _this.humanity=data
+            },
+            //取消更新数据
+            cancelUpdate(){
+                var _this = this
+                //关闭修改信息弹框
+                _this.dialogFormVisible = false
+                //刷新数据与数据库一致
+                _this.humanity.page=1
+                _this.humanity.row=3
+                _this.loadDataPage();
+            },
+            //确认更新寻人启事数据
+            ensureUpdate(){
+                var _this = this
+                //发送更新后的数据到后端
+                console.log(_this.humanity)
+                console.log(JSON.stringify(_this.humanity))
+
+                $.ajax({
+                    url: "/humanity/updateHumanityInfo",
+                    type: "post",
+                    contentType:"application/json",//表示发送的是json格式数据
+                    dataType:"json",//表示接受后端传来的json数据
+                    data:JSON.stringify(_this.humanity),
+
+                    // data:JSON.stringify(_this.humanity.page,_this.humanity.row),//将user转换成JSON格式字符串
+                    success: function(data) { //表示数据请求成功之后执行的函数
+                        // console.log(data);
+                        //关闭修改信息弹框
+                        _this.dialogFormVisible = false
+                        //刷新数据与数据库一致
+                        _this.humanity.page=1
+                        _this.humanity.row=3
+                        _this.loadDataPage();
+                    }
+                })
+            },
+            //删除指定寻人启事信息
+            delHumanity(data){
+                var _this = this;
+                console.log(data)
+                $.ajax({
+                    url: "/humanity/delHumanity",
+                    type: "get",
+                    contentType:"application/json",//表示发送的是json格式数据
+                    dataType:"json",//表示接受后端传来的json数据
+                    data:{humanityId:data.humanityId},
+
+                    // data:JSON.stringify(_this.humanity.page,_this.humanity.row),//将user转换成JSON格式字符串
+                    success: function(data) { //表示数据请求成功之后执行的函数
+                        // console.log(data);
+                        _this.$message({
+                            message: data.info,
+                            type: 'success'
+                        });
+                        //刷新数据与数据库一致
+                        _this.humanity.page=1
+                        _this.humanity.row=3
+                        _this.loadDataPage();
+                    }
+                })
+            },
+            //添加寻人启事信息弹框
+            insertView(){
+                var _this = this
+                _this.messageTitle="添加寻人启事"
+
+                //显示信息弹框
+                _this.dialogFormVisible = true
+            },
+            //取消添加
+            cancelInsert(){
+                var _this = this
+                //关闭弹框
+                _this.dialogFormVisible = false
+
+            },
+            //确认添加
+            ensureInsert(){
+                var _this = this
+                console.log(_this.humanity)
+                console.log(JSON.stringify(_this.humanity))
+
+                //向数据库添加数据
+                $.ajax({
+                    url: "/humanity/insertHumanity"+sessionStorage.getItem("userEmail"),
+                    type: "post",
+                    contentType:"application/json",//表示发送的是json格式数据
+                    dataType:"json",//表示接受后端传来的json数据
+                    data:JSON.stringify(_this.humanity),
+                    // data:JSON.stringify(_this.humanity.page,_this.humanity.row),//将user转换成JSON格式字符串
+                    success: function(data) { //表示数据请求成功之后执行的函数
+                        // console.log(data);
+                        _this.$message({
+                            message: data.info,
+                            type: 'success'
+                        });
+                        //刷新数据与数据库一致
+                        _this.humanity.page=1
+                        _this.humanity.row=3
+                        _this.loadDataPage();
+                    }
+                })
+            },
+
+        },
+        mounted(){
+            // this.selectAll();
+            this.loadDataPage();
+        }
+
+    })
+</script>
+
+</body>
+</html>
