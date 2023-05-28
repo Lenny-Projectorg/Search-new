@@ -45,4 +45,9 @@ public class FoundController {
     public HashMap<String,Object> updateFound(@RequestBody Found found){
         return foundService.updateFound(found);
     }
+
+    @GetMapping("/deleteFound")
+    public HashMap<String,Object> deleteFoundByFoundId(Integer foundId){
+        return foundService.deleteFoundByFoundId(foundId);
+    }
 }

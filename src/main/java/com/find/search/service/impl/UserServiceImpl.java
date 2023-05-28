@@ -159,4 +159,16 @@ public class UserServiceImpl implements UserService {
         }
         return map;
     }
+
+    @Override
+    public HashMap<String, Object> selectUser(String userEmail){
+        HashMap<String, Object> map = new HashMap<>();
+        User user = userMapper.selectByUserEmail(userEmail);
+        if(user.getUserId()==null){
+            map.put("failed",null);
+        }else {
+            map.put("success",user);
+        }
+        return map;
+    }
 }

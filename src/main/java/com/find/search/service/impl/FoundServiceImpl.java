@@ -117,4 +117,21 @@ public class FoundServiceImpl implements FoundService {
         }
         return map;
     }
+
+    /**
+     * 删除失物招领信息
+     * @param foundId
+     * @return
+     */
+    @Override
+    public HashMap<String, Object> deleteFoundByFoundId(Integer foundId) {
+        HashMap<String, Object> map = new HashMap<>();
+        Integer i = foundMapper.deleteFoundByFoundId(foundId);
+        if (i>0){
+            map.put("info","删除成功");
+        }else {
+            map.put("info","删除失败");
+        }
+        return map;
+    }
 }

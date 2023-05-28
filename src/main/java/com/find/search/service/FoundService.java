@@ -19,5 +19,9 @@ public interface FoundService {
     //添加失物招领
     HashMap<String,Object> insertFound(Found found);
 
+    //修改失物招领信息
     HashMap<String,Object> updateFound(Found found);
+
+    //删除失物招领信息
+    HashMap<String,Object> deleteFoundByFoundId(Integer foundId);
 }

@@ -16,4 +16,7 @@ public interface UserService {
 
     //根据用户邮箱获取用户id
     HashMap<String,Object> selectByUserEmail(String userEmail);
+
+    //查询指定用户信息
+    HashMap<String, Object> selectUser(String userEmail);
 }

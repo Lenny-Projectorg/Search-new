@@ -38,18 +38,19 @@ public class GoodsController {
         return goodsService.findUserIdGoodsByPage(page,pageRow,goods);
     }
 
-    @PostMapping("/updateGoods")
+
+    @PostMapping("/updateGoods")//更新寻物启事信息
     public HashMap<String,Object> updateGoods(@RequestBody Goods goods){
         return goodsService.updateGoods(goods);
     }
 
-    @GetMapping("/deleteGoods")
+    @GetMapping("/deleteGoods")//删除寻物启事信息
     private HashMap<String,Object> deleteGoodsByGoodsId(Integer goodsId){
         System.out.println(goodsId);
         return goodsService.deleteGoodsByGoodsId(goodsId);
     }
 
-    @PostMapping("/insertGoods")
+    @PostMapping("/insertGoods")//添加寻物启事信息
     public HashMap<String,Object> insertGoods(@RequestBody Goods goods){
         return goodsService.insertGoods(goods);
     }

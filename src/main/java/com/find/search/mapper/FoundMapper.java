@@ -16,5 +16,9 @@ public interface FoundMapper {
     //添加失物招领
     Integer insertFound(Found found);
 
+    //修改失物招领信息
     Integer updateFound(Found found);
+
+    //删除失物招领信息
+    Integer deleteFoundByFoundId(Integer foundId);
 }

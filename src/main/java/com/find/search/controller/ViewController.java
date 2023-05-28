@@ -52,4 +52,10 @@ public class ViewController {
     public String lost(){
         return "lost";
     }
+
+    //发布失物招领界面
+    @RequestMapping("/userInfo")
+    public String userInfo(){
+        return "userInfo";
+    }
 }

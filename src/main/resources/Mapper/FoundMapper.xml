@@ -41,6 +41,11 @@
         </where>
     </select>
 
+    <!--    删除失物招领-->
+    <delete id="deleteFoundByFoundId" parameterType="com.find.search.entity.Found">
+        delete from found where found_id = #{foundId}
+    </delete>
+
 <!--    添加失物招领信息-->
     <insert id="insertFound" parameterType="com.find.search.entity.Found">
         insert into found(found_name,found_img,found_feature,found_place,user_id,user_name,user_phone,found_username,found_success)

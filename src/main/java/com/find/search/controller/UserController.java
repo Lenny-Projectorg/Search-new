@@ -49,4 +49,10 @@ public class UserController {
     public HashMap<String,Object> selectByUserEmail(String userEmail){
         return userService.selectByUserEmail(userEmail);
     }
+
+    //查询用户信息
+    @GetMapping("/selectUser")
+    public HashMap<String,Object> selectUser(String userEmail){
+        return userService.selectUser(userEmail);
+    }
 }
