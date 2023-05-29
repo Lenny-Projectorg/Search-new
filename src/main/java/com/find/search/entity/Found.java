@@ -10,7 +10,7 @@ public class Found {
     private String userName;
     private String userPhone;
     private String foundUsername;
-    private Integer foundSuccess;
+    private String foundSuccess;   //将Integer改为String
 
     private Integer page;
     private Integer pageRow;
@@ -87,11 +87,11 @@ public class Found {
         this.foundUsername = foundUsername;
     }
 
-    public Integer getFoundSuccess() {
+    public String getFoundSuccess() {
         return foundSuccess;
     }
 
-    public void setFoundSuccess(Integer foundSuccess) {
+    public void setFoundSuccess(String foundSuccess) {
         this.foundSuccess = foundSuccess;
     }
 

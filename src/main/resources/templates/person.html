@@ -53,10 +53,24 @@
     }
     .li_style{
         border: #3e3e3e solid 1px;
-        height: 150px;
+        height: 125px;
         list-style: none;
         display: flex;
         justify-content: space-around;
+    }
+    img{
+        width: 90px;
+        height: 120px;
+        /*        max-width: 100%;
+                max-height: 100%;*/
+    }
+    th,tr,td,table{
+        border: 0px solid #440e25;
+    }
+    .table{
+        margin: 0 auto;
+        opacity:0.8;
+        /*background-image: url("/res/images/14.png");*/
     }
 </style>
 <body>
@@ -129,7 +143,50 @@
                 <!--Main界面-->
                 <el-main>
 
+                    <!--开始更改-->
                     <div>
+                        <table class="table">
+                            <caption>寻人列表</caption>
+                            <thead>
+                            <tr class="li_style">
+                                <th style="width: 120px">照片</th>
+                                <th style="width: 50px">姓名</th>
+                                <th style="width: 40px">年龄</th>
+                                <th style="width: 40px">性别</th>
+                                <th style="width: 120px">出生日期</th>
+                                <th style="width: 100px">特征</th>
+                                <th style="width: 80px">失踪地点</th>
+                                <th style="width: 180px">失踪时间</th>
+                                <th style="width: 80px">联系人</th>
+                                <th style="width: 100px">联系人手机号</th>
+                                <th style="width: 80px">关系</th>
+                                <th style="width: 70px">是否找回</th>
+                                <th style="width: 120px"><button @click="insertView">我要发布</button></th>
+                            </tr>
+
+                            <tr v-for="(item,index) in humanityInfo" class="li_style">
+                                <td style="width: 120px"><img class="img" :src="item.humanityImg"></td>
+                                <td style="width: 50px">{{item.humanityName}}</td>
+                                <td style="width: 40px">{{item.humanityAge}}</td>
+                                <td style="width: 40px">{{item.humanitySex}}</td>
+                                <td style="width: 120px">{{item.humanityBirthday}}</td>
+                                <td style="width: 100px">{{item.humanityFeature}}</td>
+                                <td style="width: 80px">{{item.humanityDisplace}}</td>
+                                <td style="width: 180px">{{item.humanityDistime}}</td>
+                                <td style="width: 80px">{{item.userName}}</td>
+                                <td style="width: 100px">{{item.userPhone}}</td>
+                                <td style="width: 80px">{{item.relationship}}</td>
+                                <td style="width: 70px">{{item.humanitySuccess}}</td>
+                                <td style="width: 120px">
+                                    <button @click="updateView(item)">修改</button>
+                                    <button @click="delHumanity(item)">删除</button></td>
+                            </tr>
+
+                        </table>
+                    </div>
+                    <!--更改结束-->
+
+                   <!-- <div>
                         <ul>
                             <li class="li_style">
                                 <div>照片</div>
@@ -167,7 +224,7 @@
                                 </div>
                             </li>
                         </ul>
-                    </div>
+                    </div>-->
 
                     <!--弹框界面-->
                     <el-dialog :title="messageTitle" :visible.sync="dialogFormVisible">
@@ -224,8 +281,8 @@
                             </el-form-item>
                             <el-form-item label="是否找回" :label-width="formLabelWidth">
                                 <el-select v-model="humanity.humanitySuccess" placeholder="请选择是否找回">
-                                    <el-option label="已找回" value=1></el-option>
-                                    <el-option label="未找到" value=0></el-option>
+                                    <el-option label="已找回" value="已找回"></el-option>
+                                    <el-option label="未找到" value="未找到"></el-option>
                                 </el-select>
                             </el-form-item>
 
