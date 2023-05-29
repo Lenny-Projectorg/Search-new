@@ -25,7 +25,7 @@ public class Humanity{
     private String userName;
     private String userPhone;
     private String relationship;
-    private Integer humanitySuccess;
+    private String humanitySuccess;  //将Integer改为String
 
     public Integer getHumanityId() {
         return humanityId;
@@ -131,11 +131,11 @@ public class Humanity{
         this.relationship = relationship;
     }
 
-    public Integer getHumanitySuccess() {
+    public String getHumanitySuccess() {
         return humanitySuccess;
     }
 
-    public void setHumanitySuccess(Integer humanitySuccess) {
+    public void setHumanitySuccess(String humanitySuccess) {
         this.humanitySuccess = humanitySuccess;
     }
 

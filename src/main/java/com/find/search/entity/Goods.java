@@ -17,7 +17,7 @@ public class Goods {
     private Integer userId;
     private String userName;
     private String userPhone;
-    private Integer goodsSuccess;
+    private String goodsSuccess;  //将Integer改为String
 
     private Integer page;
     private Integer pageRow;
@@ -94,11 +94,11 @@ public class Goods {
         this.userPhone = userPhone;
     }
 
-    public Integer getGoodsSuccess() {
+    public String getGoodsSuccess() {
         return goodsSuccess;
     }
 
-    public void setGoodsSuccess(Integer goodsSuccess) {
+    public void setGoodsSuccess(String goodsSuccess) {
         this.goodsSuccess = goodsSuccess;
     }
 

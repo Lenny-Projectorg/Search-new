@@ -15,6 +15,8 @@
 <style>
     .el-header, .el-footer {
         background-color: #B3C0D1;
+        /*设置背景图片*/
+        /*background-image: url("/res/images/14.png");*/
         color: #333;
         text-align: center;
         line-height: 60px;
@@ -53,15 +55,31 @@
     }
     .li_style{
         border: #3e3e3e solid 1px;
-        height: 150px;
+        height: 140px;/*150*/
+        width: 100%;
         list-style: none;
         display: flex;
         justify-content: space-around;
+    }
+    img{
+        width: 100px;
+        height: 130px;
+/*        max-width: 100%;
+        max-height: 100%;*/
+    }
+    th,tr,td,table{
+        border: 0px solid #440e25;
+    }
+    .table{
+        margin: 0 auto;
+        opacity:0.8;
+        /*background-image: url("/res/images/14.png");*/
     }
 </style>
 <body>
 
 <div id="index">
+    <template>
     <el-container>
         <el-header>Header</el-header>
 <!--        Asia-->
@@ -124,43 +142,81 @@
                 </el-row>
             </el-aside>
 
-
             <el-container>
                 <!--Main界面-->
                 <el-main>
-
+                    <!--开始更改-->
                     <div>
-                        <ul>
+                        <table class="table">
+                            <caption>失踪人员列表</caption>
+                            <thead>
+                            <tr class="li_style">
+                                <th style="width: 150px">照片</th>
+                                <th style="width: 80px">姓名</th>
+                                <th style="width: 50px">年龄</th>
+                                <th style="width: 50px">性别</th>
+                                <th style="width: 120px">出生日期</th>
+                                <th style="width: 100px">特征</th>
+                                <th style="width: 120px">失踪地点</th>
+                                <th style="width: 200px">失踪时间</th>
+                                <th style="width: 80px">联系人</th>
+                                <th style="width: 100px">联系人手机号</th>
+                                <th style="width: 50px">关系</th>
+
+                            </tr>
+
+                            <tr v-for="(item,index) in humanityInfo" class="li_style">
+                                <td style="width: 150px"><img class="img" :src="item.humanityImg"></td><!--style="width: 120px;height: 150px"-->
+                                <td style="width: 80px">{{item.humanityName}}</td>
+                                <td style="width: 50px">{{item.humanitySex}}</td>
+                                <td style="width: 50px">{{item.humanityAge}}</td>
+                                <td style="width: 120px">{{item.humanityBirthday}}</td>
+                                <td style="width: 100px">{{item.humanityFeature}}</td>
+                                <td style="width: 120px">{{item.humanityDisplace}}</td>
+                                <td style="width: 200px">{{item.humanityDistime}}</td>
+                                <td style="width: 80px">{{item.userName}}</td>
+                                <td style="width: 100px">{{item.userPhone}}</td>
+                                <td style="width: 50px">{{item.relationship}}</td>
+                     <!--  <td><img style="width: 60px;height: 65px" :src="item.humanityImg"></td>-->
+                            </tr>
+
+                        </table>
+                    </div>
+                    <!--更改结束-->
+
+                    <!--<div>
+                        <ul class="table1">
                             <li class="li_style">
-                                <div>照片</div>
-                                <div>姓名</div>
-                                <div>年龄</div>
-                                <div>性别</div>
-                                <div>出生日期</div>
-                                <div>特征</div>
-                                <div>失踪地点</div>
-                                <div>失踪时间</div>
-                                <div>联系人</div>
-                                <div>联系人手机号</div>
-                                <div>关系</div>
+                                <div style="width: 150px">照片</div>
+                                <div style="width: 80px">姓名</div>
+                                <div style="width: 50px">年龄</div>
+                                <div style="width: 50px">性别</div>
+                                <div style="width: 120px">出生日期</div>
+                                <div style="width: 120px">特征</div>
+                                <div style="width: 120px">失踪地点</div>
+                                <div style="width: 200px">失踪时间</div>
+                                <div style="width: 80px">联系人</div>
+                                <div style="width: 100px">联系人手机号</div>
+                                <div style="width: 50px">关系</div>
                             </li>
                             <li v-for="(item,index) in humanityInfo" class="li_style">
-                                <div>
-                                    <img style="width: 120px;height: 150px" :src="item.humanityImg">
+                                <div style="width: 150px">
+                                    <img class="img" style="width: 55px;height: 65px" :src="item.humanityImg">
                                 </div>
-                                <div>{{item.humanityName}}</div>
-                                <div>{{item.humanitySex}}</div>
-                                <div>{{item.humanityAge}}</div>
-                                <div>{{item.humanityBirthday}}</div>
-                                <div>{{item.humanityFeature}}</div>
-                                <div>{{item.humanityDisplace}}</div>
-                                <div>{{item.humanityDistime}}</div>
-                                <div>{{item.userName}}</div>
-                                <div>{{item.userPhone}}</div>
-                                <div>{{item.relationship}}</div>
+                                <div style="width: 80px">{{item.humanityName}}</div>
+                                <div style="width: 50px">{{item.humanitySex}}</div>
+                                <div style="width: 50px">{{item.humanityAge}}</div>
+                                <div style="width: 120px">{{item.humanityBirthday}}</div>
+                                <div style="width: 120px">{{item.humanityFeature}}</div>
+                                <div style="width: 120px">{{item.humanityDisplace}}</div>
+                                <div style="width: 200px">{{item.humanityDistime}}</div>
+                                <div style="width: 80px">{{item.userName}}</div>
+                                <div style="width: 100px">{{item.userPhone}}</div>
+                                <div style="width: 50px">{{item.relationship}}</div>
+
                             </li>
                         </ul>
-                    </div>
+                    </div>-->
                     <!--分页显示-->
                     <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="curPage"
                                    :page-sizes="[2, 3, 4, 5]" :page-size="humanity.row" layout="total, sizes, prev, pager, next, jumper" :total="totalCount">
@@ -172,6 +228,7 @@
             </el-container>
         </el-container>
     </el-container>
+    </template>
 </div>
 
 <script>

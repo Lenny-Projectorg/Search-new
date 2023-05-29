@@ -149,7 +149,7 @@ public class HumanityServiceImpl implements HumanityService {
         }
         //补全寻人启事信息
         humanity.setUserId(user.getUserId());
-        humanity.setHumanitySuccess(0);
+        humanity.setHumanitySuccess("未找到");//将0改为未找到
         //向数据库插入信息
         Integer i = humanityMapper.insertHumanity(humanity);
         //判断是否插入成功
