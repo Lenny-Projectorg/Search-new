@@ -158,7 +158,7 @@
           <!--开始更改-->
           <div>
             <table class="table">
-              <caption>寻物列表</caption>
+              <caption><h2>寻物列表</h2></caption>
               <thead>
               <tr class="li_style">
                 <th style="width: 150px">照片</th>
@@ -255,8 +255,8 @@
               </el-form-item>
               <el-form-item label="是否找回" :label-width="formLabelWidth">
                 <el-select v-model="goods.goodsSuccess" placeholder="请选择是否找回">
-                  <el-option label="已找回" value="已找回"></el-option>
-                  <el-option label="未找到" value="未找到"></el-option>
+                  <el-option label=1 value=1></el-option>
+                  <el-option label=0 value=0></el-option>
                 </el-select>
               </el-form-item>
 
@@ -295,7 +295,7 @@
           userId: 3,
           userName: "",
           userPhone: "",
-          goodsSuccess: "",
+          goodsSuccess: 0,
           page: 1,//页码
           pageRow: 3//每页显示条数
         },

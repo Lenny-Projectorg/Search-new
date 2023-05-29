@@ -158,7 +158,7 @@
           <!--开始更改-->
           <div>
             <table class="table">
-              <caption>失物招领列表</caption>
+              <caption><h2>失物招领列表</h2></caption>
               <thead>
               <tr class="li_style">
                 <th style="width: 150px">照片</th>
@@ -247,8 +247,8 @@
               </el-form-item>
               <el-form-item label="是否领取" :label-width="formLabelWidth">
                 <el-select v-model="found.foundSuccess" placeholder="请选择是否领取">
-                  <el-option label="已领取" value="已领取"></el-option>
-                  <el-option label="未领取" value="未领取"></el-option>
+                  <el-option label=1 value=1></el-option>
+                  <el-option label=0 value=0></el-option>
                 </el-select>
               </el-form-item>
 
@@ -287,7 +287,7 @@
           userName: "",
           userPhone: "",
           foundUsername: "",
-          foundSuccess: "", //修改为已领取或未领取   1  0
+          foundSuccess: 0, //修改为已领取或未领取   1  0
           page: 1,
           pageRow: 3
         },
