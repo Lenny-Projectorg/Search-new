@@ -15,10 +15,13 @@
 <style>
 
     .el-header, .el-footer {
-        background-color: #B3C0D1;
+        background-color: #22a2c3;
         color: #333;
         text-align: center;
         line-height: 60px;
+        /*background-image: url("/res/images/4.jpg");*/
+        background-size: cover; /*背景图固定不变*/
+        opacity: 0.8;
     }
 
     .el-aside {
@@ -44,6 +47,7 @@
     body{
         background-color: #93b5cf;
         background-image: url("/res/images/12.png");
+        background-size: cover; /*背景图固定不变*/
     }
 
     .el-container:nth-child(5) .el-aside,
@@ -80,6 +84,18 @@
     }
     .beijingtu{
         background-image: url("/res/images/12.png");
+    }
+    .foot{
+        /*    	background: #efefef; */
+        text-align: center;
+        height: 40px;
+        line-height:0px ;
+        position: absolute;      /*注册栏居中在屏幕中心*/
+        top: 1;/*顶部*/
+        left: 0;/*左部*/
+        bottom: 0;/*底部*/
+        right: 0;/*右部*/
+        margin: 0;/*边缘*/
     }
 </style>
 <body>
@@ -159,7 +175,7 @@
                 <!--Main界面-->
                 <el-main>
                     <!--开始更改-->
-                    <div>
+                    <div class="box-card">
                         <table class="table">
 <!--                            <caption></caption>-->
                             <h2>失踪人员列表</h2>
@@ -239,7 +255,9 @@
                 </el-main>
                 <!--Footer界面-->
                 <el-footer>
-                    Is Tracing System © 2023 Pan-Pearl River Delta competition 贵ICP备20230803-888号 © 20计科专升本班-718 版权所有
+                    <tr class="foot">
+                        <b>&copy;寻人启事系统</b>
+                    </tr>
                 </el-footer>
             </el-container>
 
