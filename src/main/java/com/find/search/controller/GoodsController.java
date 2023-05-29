@@ -14,15 +14,17 @@ public class GoodsController {
     @Autowired
     GoodsService goodsService;
 
-    @GetMapping("/selectAllGoods")
-    public List<Goods> selectAllHumanity(){
-        return goodsService.selectAllGoods();
+    @PostMapping("/selectAllGoods")
+    public List<Goods> selectAllHumanity(@RequestBody Goods goods){
+        return goodsService.selectAllGoods(goods);
     }
 
-    @GetMapping("/findGoodsByPage")//分页查询所有寻物启事
-    public HashMap<String,Object> findGoodsByPage(Integer page, Integer pageRow){
+    @PostMapping("/findGoodsByPage")//分页查询所有寻物启事
+    public HashMap<String,Object> findGoodsByPage(@RequestBody Goods goods){
+        Integer page = goods.getPage();
+        Integer pageRow = goods.getPageRow();
 //        System.out.println("page:"+page+"-------"+"pageRow:"+pageRow);
-        return goodsService.findGoodsByPage(page,pageRow);
+        return goodsService.findGoodsByPage(page,pageRow,goods);
     }
 
     @PostMapping("/selectGoodsByUserId")//查询指定用户发布的寻物启事

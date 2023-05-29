@@ -16,29 +16,33 @@ public class HumanityController {
     @Autowired
     HumanityService humanityService;
 
-    @GetMapping("/selectAll")//查询所有寻人启事
-    public List<Humanity> selectAllHumanity(){
-        return humanityService.selectAllHumanity();
+    @PostMapping("/selectAll")//查询所有寻人启事
+    public List<Humanity> selectAllHumanity(@RequestBody Humanity humanity){
+        return humanityService.selectAllHumanity(humanity);
     }
 
-    @GetMapping("/findByPage")//分页查询所有寻人启事
-    public HashMap<String,Object> findByPage(Integer page, Integer pageRow){
+    @PostMapping("/findByPage")//分页查询所有寻人启事
+    public HashMap<String,Object> findByPage(@RequestBody Humanity humanity){
+        Integer page = humanity.getPage();
+        Integer pageRow = humanity.getPageRow();
 //        System.out.println("page:"+page+"-------"+"pageRow:"+pageRow);
-        return humanityService.findByPage(page,pageRow);
+        return humanityService.findByPage(page,pageRow,humanity);
     }
 
 
     @PostMapping("/selectHumanityByUserId")//通过邮箱查询用户id
-    public List<Humanity> selectHumanityByUserId(String userEmail){
+    public List<Humanity> selectHumanityByUserId(@RequestBody Humanity humanity){
 //        System.out.println("userEmail:"+userEmail);
-        return humanityService.selectHumanityByUserId(userEmail);
+        return humanityService.selectHumanityByUserId(humanity);
     }
 
 
-    @GetMapping("/findPersonByPage")//分页查询指定用户发布的寻人启事
-    public HashMap<String,Object> findPersonByPage(Integer page, Integer pageRow,String userEmail){
+    @PostMapping("/findPersonByPage")//分页查询指定用户发布的寻人启事
+    public HashMap<String,Object> findPersonByPage(@RequestBody Humanity humanity){
+        Integer page = humanity.getPage();
+        Integer pageRow = humanity.getPageRow();
 //        System.out.println("page:"+page+"-"+"pageRow:"+pageRow+"-"+"userEmail:"+userEmail);
-        return humanityService.findPersonByPage(page,pageRow,userEmail);
+        return humanityService.findPersonByPage(page,pageRow,humanity);
     }
 
 

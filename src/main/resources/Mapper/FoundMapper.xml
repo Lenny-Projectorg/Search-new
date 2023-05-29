@@ -27,7 +27,13 @@
 
     <!--    通过邮箱查询用户-->
     <select id="selectAllFound" resultMap="foundEntityMap">
-        SELECT * FROM found where found_success=0
+        SELECT * FROM found
+        <where>
+            found_success=0
+            <if test="foundName!=null and foundName!=''">
+                and found_name like concat('%',#{foundName},'%')
+            </if>
+        </where>
     </select>
 
     <!-- 查找指定用户发布的失物招领-->

@@ -27,8 +27,8 @@ public class GoodsServiceImpl implements GoodsService {
      * @return
      */
     @Override
-    public List<Goods> selectAllGoods() {
-        return goodsMapper.selectAllGoods();
+    public List<Goods> selectAllGoods(Goods goods) {
+        return goodsMapper.selectAllGoods(goods);
     }
 
     /**
@@ -38,12 +38,12 @@ public class GoodsServiceImpl implements GoodsService {
      * @return
      */
     @Override
-    public HashMap<String, Object> findGoodsByPage(Integer page, Integer pageRow) {
+    public HashMap<String, Object> findGoodsByPage(Integer page, Integer pageRow,Goods goods) {
         HashMap<String,Object> map=new HashMap<>();
         //把页码和条数传入PageHelper
         PageHelper.startPage(page,pageRow);
         //确认分页的数据内容
-        List<Goods> list=goodsMapper.selectAllGoods();
+        List<Goods> list=goodsMapper.selectAllGoods(goods);
         //创建分页对象，把list集合放入
         PageInfo<Goods> pageInfo=new PageInfo<>(list);
         //取出相关的数据

@@ -8,7 +8,7 @@ import java.util.List;
 @Mapper
 public interface FoundMapper {
     //查询所有失物招领
-    List<Found> selectAllFound();
+    List<Found> selectAllFound(Found found);
 
     //查询指定用户发布的失物招领
     List<Found> selectFoundByUserId(Found found);

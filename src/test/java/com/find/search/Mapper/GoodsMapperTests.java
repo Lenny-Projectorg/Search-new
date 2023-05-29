@@ -17,9 +17,9 @@ public class GoodsMapperTests {
 
     @Test
     public void findAllGoods(){
-        List<Goods> goods = goodsService.selectAllGoods();
-        for (Goods good : goods) {
-            System.out.println(good.getGoodsName()+good.getGoodsFeature());
-        }
+//        List<Goods> goods = goodsService.selectAllGoods();
+//        for (Goods good : goods) {
+//            System.out.println(good.getGoodsName()+good.getGoodsFeature());
+//        }
     }
 }

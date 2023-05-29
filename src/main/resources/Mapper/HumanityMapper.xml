@@ -31,12 +31,24 @@
 
     <!--   查询用户-->
     <select id="selectAllHumanity" resultMap="humanityEntityMap">
-        SELECT * FROM humanity where humanity_success=0
+        SELECT * FROM humanity
+        <where>
+            humanity_success=0
+            <if test="humanityName!=null and humanityName!=''">
+                and humanity_name like concat('%',#{humanityName},'%')
+            </if>
+        </where>
     </select>
 
     <!--   查询指定用户user_id发布的信息-->
     <select id="selectHumanityByUserId" resultMap="humanityEntityMap">
-        SELECT * FROM humanity where user_id=#{userId}
+        SELECT * FROM humanity
+        <where>
+            user_id=#{userId}
+            <if test="humanityName!=null and humanityName!=''">
+                and humanity_name like concat('%',#{humanityName},'%')
+            </if>
+        </where>
     </select>
 
 <!--    根据humanityId删除信息-->

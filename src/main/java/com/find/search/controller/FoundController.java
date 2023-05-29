@@ -14,14 +14,18 @@ public class FoundController {
     @Autowired
     FoundService foundService;
 
-    @GetMapping("/selectAllFound")
-    public List<Found> selectAllFound(){
-        return foundService.selectAllFound();
+    @PostMapping("/selectAllFound")
+    public List<Found> selectAllFound(@RequestBody Found found){
+        return foundService.selectAllFound(found);
     }
 
-    @GetMapping("/findFoundByPage")
-    public HashMap<String,Object> findFoundByPage(Integer page, Integer pageRow){
-        return foundService.findFoundByPage(page,pageRow);
+    @PostMapping("/findFoundByPage")
+    public HashMap<String,Object> findFoundByPage(@RequestBody Found found){
+
+        Integer page = found.getPage();
+        Integer pageRow = found.getPageRow();
+
+        return foundService.findFoundByPage(page,pageRow,found);
     }
 
     @PostMapping("/selectFoundByUserId")//查询指定用户发布的失物招领

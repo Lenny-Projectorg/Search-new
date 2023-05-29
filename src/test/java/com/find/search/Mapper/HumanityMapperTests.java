@@ -15,7 +15,8 @@ public class HumanityMapperTests {
 
     @Test
     public void selectAllHumanity(){
-        List<Humanity> humanities = humanityService.selectAllHumanity();
+        Humanity humanity1 = new Humanity();
+        List<Humanity> humanities = humanityService.selectAllHumanity(humanity1);
         for (Humanity humanity : humanities) {
             System.out.println(humanity.getHumanityId()+humanity.getHumanityName());
         }
@@ -23,8 +24,9 @@ public class HumanityMapperTests {
     //查询指定用户的寻人启事
     @Test
     public void selectHumanityByUserId(){
+        Humanity humanity1 = new Humanity();
         String userEmail="admin@qq.com";
-        List<Humanity> humanityList = humanityService.selectHumanityByUserId(userEmail);
+        List<Humanity> humanityList = humanityService.selectHumanityByUserId(humanity1);
         for (Humanity humanity : humanityList) {
             System.out.println(humanity.getHumanityId()+" "+humanity.getHumanityName()+" "+humanity.getUserId());
         }

@@ -8,10 +8,10 @@ import java.util.List;
 @Mapper
 public interface HumanityMapper {
     //查询所有寻人启事
-    List<Humanity> selectAllHumanity();
+    List<Humanity> selectAllHumanity(Humanity humanity);
 
     //查询指定用户发布的寻人启事
-    List<Humanity> selectHumanityByUserId(Integer userId);
+    List<Humanity> selectHumanityByUserId(Humanity humanity);
 
     //更新寻人启事信息
     Integer updateHumanityInfo(Humanity humanity);

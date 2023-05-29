@@ -7,9 +7,9 @@ import java.util.List;
 public interface GoodsService {
 
     //查询所有寻物启事
-    List<Goods> selectAllGoods();
+    List<Goods> selectAllGoods(Goods goods);
     //分页查询所有寻物启事方法:两个参数：页码，每页条数
-    HashMap<String, Object> findGoodsByPage(Integer page, Integer pageRow);
+    HashMap<String, Object> findGoodsByPage(Integer page, Integer pageRow,Goods goods);
 
     //查询指定用户发布的寻物启事
     List<Goods> selectGoodsByUserId(Goods goods);

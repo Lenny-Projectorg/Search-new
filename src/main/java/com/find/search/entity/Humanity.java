@@ -25,7 +25,10 @@ public class Humanity{
     private String userName;
     private String userPhone;
     private String relationship;
-    private Integer humanitySuccess;  //将Integer改为String
+    private Integer humanitySuccess;
+
+    private Integer page;
+    private Integer pageRow;
 
     public Integer getHumanityId() {
         return humanityId;
@@ -139,6 +142,22 @@ public class Humanity{
         this.humanitySuccess = humanitySuccess;
     }
 
+    public Integer getPage() {
+        return page;
+    }
+
+    public void setPage(Integer page) {
+        this.page = page;
+    }
+
+    public Integer getPageRow() {
+        return pageRow;
+    }
+
+    public void setPageRow(Integer pageRow) {
+        this.pageRow = pageRow;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -172,7 +191,10 @@ public class Humanity{
             return false;
         if (getRelationship() != null ? !getRelationship().equals(humanity.getRelationship()) : humanity.getRelationship() != null)
             return false;
-        return getHumanitySuccess() != null ? getHumanitySuccess().equals(humanity.getHumanitySuccess()) : humanity.getHumanitySuccess() == null;
+        if (getHumanitySuccess() != null ? !getHumanitySuccess().equals(humanity.getHumanitySuccess()) : humanity.getHumanitySuccess() != null)
+            return false;
+        if (getPage() != null ? !getPage().equals(humanity.getPage()) : humanity.getPage() != null) return false;
+        return getPageRow() != null ? getPageRow().equals(humanity.getPageRow()) : humanity.getPageRow() == null;
     }
 
     @Override
@@ -191,6 +213,8 @@ public class Humanity{
         result = 31 * result + (getUserPhone() != null ? getUserPhone().hashCode() : 0);
         result = 31 * result + (getRelationship() != null ? getRelationship().hashCode() : 0);
         result = 31 * result + (getHumanitySuccess() != null ? getHumanitySuccess().hashCode() : 0);
+        result = 31 * result + (getPage() != null ? getPage().hashCode() : 0);
+        result = 31 * result + (getPageRow() != null ? getPageRow().hashCode() : 0);
         return result;
     }
 
@@ -211,6 +235,8 @@ public class Humanity{
                 ", userPhone='" + userPhone + '\'' +
                 ", relationship='" + relationship + '\'' +
                 ", humanitySuccess=" + humanitySuccess +
+                ", page=" + page +
+                ", pageRow=" + pageRow +
                 '}';
     }
 }

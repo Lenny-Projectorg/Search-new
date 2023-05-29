@@ -6,9 +6,9 @@ import java.util.List;
 
 public interface FoundService {
     //查询所有失物招领
-    List<Found> selectAllFound();
+    List<Found> selectAllFound(Found found);
     //分页查询所有失物招领方法:两个参数：页码，每页条数
-    HashMap<String, Object> findFoundByPage(Integer page, Integer pageRow);
+    HashMap<String, Object> findFoundByPage(Integer page, Integer pageRow,Found found);
 
     //查询指定用户发布的失物招领
     List<Found> selectFoundByUserId(Found found);

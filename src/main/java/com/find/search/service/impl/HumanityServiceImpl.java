@@ -26,8 +26,8 @@ public class HumanityServiceImpl implements HumanityService {
      * @return
      */
     @Override
-    public List<Humanity> selectAllHumanity() {
-        return humanityMapper.selectAllHumanity();
+    public List<Humanity> selectAllHumanity(Humanity humanity) {
+        return humanityMapper.selectAllHumanity(humanity);
     }
 
 
@@ -38,12 +38,12 @@ public class HumanityServiceImpl implements HumanityService {
      * @return
      */
     @Override
-    public HashMap<String, Object> findByPage(Integer page, Integer pageRow) {
+    public HashMap<String, Object> findByPage(Integer page, Integer pageRow,Humanity humanity) {
         HashMap<String,Object> map=new HashMap<>();
         //把页码和条数传入PageHelper
         PageHelper.startPage(page,pageRow);
         //确认分页的数据内容
-        List<Humanity> list=humanityMapper.selectAllHumanity();
+        List<Humanity> list=humanityMapper.selectAllHumanity(humanity);
         //创建分页对象，把list集合放入
         PageInfo<Humanity> pageInfo=new PageInfo<>(list);
         //取出相关的数据
@@ -61,14 +61,12 @@ public class HumanityServiceImpl implements HumanityService {
      * @return
      */
     @Override
-    public HashMap<String, Object> findPersonByPage(Integer page, Integer pageRow,String userEmail) {
+    public HashMap<String, Object> findPersonByPage(Integer page, Integer pageRow,Humanity humanity) {
         HashMap<String,Object> map=new HashMap<>();
-        //获取用户id
-        User user = userMapper.selectByUserEmail(userEmail);
         //把页码和条数传入PageHelper
         PageHelper.startPage(page,pageRow);
         //确认分页的数据内容
-        List<Humanity> list=humanityMapper.selectHumanityByUserId(user.getUserId());
+        List<Humanity> list=humanityMapper.selectHumanityByUserId(humanity);
         //创建分页对象，把list集合放入
         PageInfo<Humanity> pageInfo=new PageInfo<>(list);
         //取出相关的数据
@@ -85,12 +83,10 @@ public class HumanityServiceImpl implements HumanityService {
      * @return
      */
     @Override
-    public List<Humanity> selectHumanityByUserId(String userEmail) {
-        //通过用户邮箱获取用户id(userId)
-        User user = userMapper.selectByUserEmail(userEmail);
+    public List<Humanity> selectHumanityByUserId(Humanity humanity) {
 
         //通过用户id查询该用户发布的寻人启事
-        List<Humanity> humanityList = humanityMapper.selectHumanityByUserId(user.getUserId());
+        List<Humanity> humanityList = humanityMapper.selectHumanityByUserId(humanity);
 
         return humanityList;
     }

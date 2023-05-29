@@ -87,7 +87,13 @@
 <div id="index">
     <template>
     <el-container>
-        <el-header>Header</el-header>
+        <el-header>
+            <div>
+                <el-input placeholder="请输入内容" v-model="humanity.humanityName" class="input-with-select">
+                    <el-button @click="search_btn" slot="append" icon="el-icon-search"></el-button>
+                </el-input>
+            </div>
+        </el-header>
 <!--        Asia-->
         <el-container>
             <el-aside width="200px">
@@ -227,7 +233,7 @@
                     </div>-->
                     <!--分页显示-->
                     <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="curPage"
-                                   :page-sizes="[2, 3, 4, 5]" :page-size="humanity.row" layout="total, sizes, prev, pager, next, jumper" :total="totalCount">
+                                   :page-sizes="[2, 3, 4, 5]" :page-size="humanity.pageRow" layout="total, sizes, prev, pager, next, jumper" :total="totalCount">
                     </el-pagination>
 
                 </el-main>
@@ -263,7 +269,7 @@
                     relationship: "",
                     humanitySuccess: "",
                     page: 1,//页码
-                    row: 3//每页显示条数
+                    pageRow: 3//每页显示条数
                 },
                 totalCount: 0,//总条数
                 totalPage: 0,//总页数
@@ -313,23 +319,49 @@
             handleClose(key, keyPath) {
                 console.log(key, keyPath);
             },
+
+            //获取用户Id
+            getUserId(){
+                var _this = this
+                // sessionStorage.getItem("userEmail")
+                $.ajax({
+                    url: "/user/getUserId",
+                    type: "get",
+                    dataType:"json",//表示接受后端传来的json数据
+                    contentType:"application/json",//表示发送的是json格式数据
+                    async:false,//关闭异步请求，先执行完该请求后才去执行其他请求
+                    //获取缓存的用户邮箱
+                    data:{
+                        userEmail:sessionStorage.getItem("userEmail")
+                    },
+                    success: function(data) { //表示数据请求成功之后执行的函数
+                        console.log(data);
+                        _this.humanity.userId=data.info
+                    }
+                })
+            },
+
             //请求寻人启事数据
             selectAll(){
                 var _this = this;
-                $.ajax({
-                    url:"/humanity/selectAll",
-                    type:"get",
-                    dataType:"json",//从后端接收json格式的数据
-                    success:function (res){
-                        // console.log(res)
-                        _this.humanityInfo=res
-                    }
+                $.when(_this.getUserId()).done(
+                    $.ajax({
+                        url:"/humanity/selectAll",
+                        type:"post",
+                        dataType:"json",//从后端接收json格式的数据
+                        data:JSON.stringify(_this.humanity),
+                        success:function (res){
+                            // console.log(res)
+                            _this.humanityInfo=res
+                        }
 
-                })
+                    })
+                )
+
             },
             handleSizeChange(val) { //下来框选中条数触发的事件
                 //更改每页显示条数
-                this.humanity.row = val;
+                this.humanity.pageRow = val;
                 //刷新
                 this.loadDataPage();
 
@@ -345,26 +377,27 @@
             // 分页查询
             loadDataPage: function() {
                 var _this = this;
-                $.ajax({
-                    url: "http://localhost:8080/humanity/findByPage",
-                    type: "Get",
-                    dataType:"json",//表示接受后端传来的json数据
-                    contentType:"application/json",//表示发送的是json格式数据
-                    data:{
-                        page:_this.humanity.page,
-                        pageRow:_this.humanity.row
-                    },
+                $.when(_this.getUserId()).done(
+                    $.ajax({
+                        url: "http://localhost:8080/humanity/findByPage",
+                        type: "post",
+                        dataType:"json",//表示接受后端传来的json数据
+                        contentType:"application/json",//表示发送的是json格式数据
+                        data:JSON.stringify(_this.humanity),
+                        success: function(data) { //表示数据请求成功之后执行的函数
+                            console.log(data);
+                            _this.humanityInfo= data.list;
+                            _this.totalCount = data.total;
+                            _this.totalPage = data.totalPage;
 
-                    // data:JSON.stringify(_this.humanity.page,_this.humanity.row),//将user转换成JSON格式字符串
-                    success: function(data) { //表示数据请求成功之后执行的函数
-                        console.log(data);
-                        _this.humanityInfo= data.list;
-                        _this.totalCount = data.total;
-                        _this.totalPage = data.totalPage;
+                        }
+                    })
+                )
 
-                    }
-                })
             },
+            search_btn(){
+                this.loadDataPage();
+            }
         },
         mounted(){
             // this.selectAll();

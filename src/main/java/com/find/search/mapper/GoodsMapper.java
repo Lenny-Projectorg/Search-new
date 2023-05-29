@@ -8,7 +8,7 @@ import java.util.List;
 @Mapper
 public interface GoodsMapper {
     //查询所以失物招领
-    List<Goods> selectAllGoods();
+    List<Goods> selectAllGoods(Goods goods);
 
     //查询指定用户发布的寻物启事
     List<Goods> selectGoodsByUserId(Goods goods);
