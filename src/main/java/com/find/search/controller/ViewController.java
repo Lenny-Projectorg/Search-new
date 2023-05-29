@@ -53,9 +53,15 @@ public class ViewController {
         return "lost";
     }
 
-    //发布失物招领界面
+    //个人信息界面
     @RequestMapping("/userInfo")
     public String userInfo(){
         return "userInfo";
+    }
+
+    //修改密码界面
+    @RequestMapping("/editPassword")
+    public String editPassword(){
+        return "editPassword";
     }
 }

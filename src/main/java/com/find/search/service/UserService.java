@@ -19,4 +19,13 @@ public interface UserService {
 
     //查询指定用户信息
     HashMap<String, Object> selectUser(String userEmail);
+
+    //修改用户信息
+    HashMap<String,Object> editUserInfo(User user);
+
+    //修改用户密码
+    HashMap<String,Object> editUserPassword(User user);
+
+    //发送修改密码的验证码
+    HashMap<String, Object> sendPasswordCode(String userEmail);
 }

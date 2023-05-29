@@ -42,4 +42,34 @@
         SELECT * FROM user WHERE user_email = #{userEmail} and user_password = #{userPassword}
     </select>
 
+<!--    修改用户信息-->
+    <update id="editUserInfo" parameterType="com.find.search.entity.User">
+        update user
+        <set>
+            <if test="userName==null||userName==''">
+                user_name = #{userName},
+            </if>
+            <if test="userEmail!=null||userEmail!=''">
+                user_email = #{userEmail},
+            </if>
+            <if test="userPhone!=null||userPhone!=''">
+                user_phone = #{userPhone},
+            </if>
+            <if test="userAddress!=null||userAddress!=''">
+                user_address = #{userAddress},
+            </if>
+        </set>
+        where user_id = #{userId}
+    </update>
+
+    <!--    修改用户密码-->
+    <update id="editUserPassword" parameterType="com.find.search.entity.User">
+        update user
+        <set>
+            <if test="userPassword!=null||userPassword!=''">
+                user_password = #{userPassword},
+            </if>
+        </set>
+        where user_email = #{userEmail}
+    </update>
 </mapper>

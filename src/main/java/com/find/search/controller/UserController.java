@@ -26,8 +26,13 @@ public class UserController {
 
     @GetMapping("/sendCode")
     public HashMap<String,Object> sendCode(String userEmail){
-        System.out.println(userEmail);
+//        System.out.println(userEmail);
         return userService.sendCode(userEmail);
+    }
+
+    @GetMapping("/sendPasswordCode")
+    public HashMap<String,Object> sendPasswordCode(String userEmail){
+        return userService.sendPasswordCode(userEmail);
     }
 
     /**
@@ -54,5 +59,15 @@ public class UserController {
     @GetMapping("/selectUser")
     public HashMap<String,Object> selectUser(String userEmail){
         return userService.selectUser(userEmail);
+    }
+
+    @PostMapping("/editUserInfo")
+    public HashMap<String,Object> editUserInfo(@RequestBody User user){
+        return userService.editUserInfo(user);
+    }
+
+    @PostMapping("/editUserPassword")
+    public HashMap<String,Object> editUserPassword(@RequestBody User user){
+        return userService.editUserPassword(user);
     }
 }

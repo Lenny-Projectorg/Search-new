@@ -160,6 +160,11 @@ public class UserServiceImpl implements UserService {
         return map;
     }
 
+    /**
+     * 根据邮箱查询指定用户
+     * @param userEmail
+     * @return
+     */
     @Override
     public HashMap<String, Object> selectUser(String userEmail){
         HashMap<String, Object> map = new HashMap<>();
@@ -169,6 +174,101 @@ public class UserServiceImpl implements UserService {
         }else {
             map.put("success",user);
         }
+        return map;
+    }
+
+    /**
+     * 修改用户信息
+     * @param user
+     * @return
+     */
+    @Override
+    public HashMap<String, Object> editUserInfo(User user) {
+        HashMap<String, Object> map = new HashMap<>();
+        Integer i = userMapper.editUserInfo(user);
+        if(i>0){
+            map.put("info","修改成功");
+        }else {
+            map.put("info","修改失败");
+        }
+        return map;
+    }
+
+    /**
+     * 修改用户密码
+     * @param user
+     * @return
+     */
+    @Override
+    public HashMap<String, Object> editUserPassword(User user) {
+        HashMap<String, Object> map = new HashMap<>();
+
+        //判断邮箱是否正确
+        User user1 = userMapper.selectByUserEmail(user.getUserEmail());
+        System.out.println("user1:"+user1);
+        if(user1.getUserId()==null){
+            map.put("info","邮箱不正确");
+            return map;
+        }
+        //判断验证码是否正确
+        String code = redisTemplate.opsForValue().get("code") + "";//从redis中取出验证码
+//        System.out.println(code);
+        if (!user.getCheckCode().equals(code)){
+            map.put("info","验证码输入错误");
+            return map;
+        }
+
+        //获取用户盐值
+        String salt = user1.getSalt();
+        //对新密码进行加密
+        String simpleHash = new SimpleHash("MD5", user.getUserPassword(),salt, 2).toString();
+//        System.out.println(simpleHash);
+        //对用户密码重新赋值
+        user.setUserPassword(simpleHash);
+        //进行修改
+        Integer i = userMapper.editUserPassword(user);
+        if(i>0){
+            map.put("info","修改成功");
+        }else {
+            map.put("info","修改失败");
+        }
+
+        return map;
+    }
+
+    /**
+     * 发送修改密码的验证码
+     * @param userEmail
+     * @return
+     */
+    @Override
+    public HashMap<String, Object> sendPasswordCode(String userEmail) {
+        //创建HashMap返回值集合
+        HashMap<String,Object> map=new HashMap<>();
+        //判断邮箱是否注册过
+        User user = userMapper.selectByUserEmail(userEmail);
+        if(user==null){
+            map.put("info","未查询到该邮箱");
+            return map;
+        }
+
+        //生成验证码
+        String code="";
+        for (int i=1;i<=6;i++){
+            code+=new Random().nextInt(10);
+        }
+        //发送验证码
+        boolean result = email.sendEmail(userEmail, "验证码", "你的验证码是:" + code);
+
+        //将验证码放入redis中存储30秒
+        redisTemplate.opsForValue().set("code",code,30, TimeUnit.SECONDS);
+
+        if(result){
+            map.put("info","发送成功");
+        }else{
+            map.put("info","发送失败");
+        }
+
         return map;
     }
 }

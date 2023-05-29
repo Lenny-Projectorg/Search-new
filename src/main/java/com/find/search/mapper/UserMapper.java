@@ -13,4 +13,10 @@ public interface UserMapper {
 
     //通过邮箱和密码查询用户
     User selectLoginIndo(String userEmail,String userPassword);
+
+    //修改用户信息
+    Integer editUserInfo(User user);
+
+    //修改用户密码
+    Integer editUserPassword(User user);
 }

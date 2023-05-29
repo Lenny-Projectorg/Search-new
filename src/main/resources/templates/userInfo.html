@@ -73,13 +73,27 @@
         height: 100px;
         text-align: center;
     }
+    .el-input{
+        width: 50%;
+    }
+    .edit_style{
+        float: right;
+        margin-top: -60px;
+    }
 </style>
 <body>
 
 <div id="userInfo">
     <el-container>
         <el-header>
-            个人信息
+            <div>
+                个人信息
+            </div>
+            <div class="edit_style">
+                <el-button @click="editUserInfo" :style="{ display: hidden }" type="primary" icon="el-icon-edit">确认修改</el-button>
+                <el-button @click="edit" type="primary" icon="el-icon-edit">{{btnTitle}}</el-button>
+
+            </div>
         </el-header>
         <!--        Asia-->
         <el-container>
@@ -130,7 +144,7 @@
                                 </template>
                                 <el-menu-item-group>
                                     <el-menu-item @click="hrefUserInfo" index="5-1">个人信息</el-menu-item>
-                                    <el-menu-item index="5-2">修改密码</el-menu-item>
+                                    <el-menu-item @click="hrefEditPassword" index="5-2">修改密码</el-menu-item>
                                     <el-menu-item index="5-3">退出登录</el-menu-item>
                                 </el-menu-item-group>
 
@@ -147,10 +161,18 @@
                 <el-main>
 
                     <div class="_info">
-                        <div class="info_div">邮箱:<span>{{user.userEmail}}</span></div>
-                        <div class="info_div">姓名:<span>{{user.userName}}</span></div>
-                        <div class="info_div">手机号:<span>{{user.userPhone}}</span></div>
-                        <div class="info_div">地址:<span>{{user.userAddress}}</span></div>
+                        <div class="info_div">邮箱:
+                            <el-input :disabled="disabled" :placeholder="user.userEmail" v-model="user.userEmail" class="input-with-select"></el-input>
+                        </div>
+                        <div class="info_div">姓名:
+                            <el-input :disabled="disabled" :placeholder="user.userName" v-model="user.userName" class="input-with-select"></el-input>
+                        </div>
+                        <div class="info_div">手机号:
+                            <el-input :disabled="disabled" :placeholder="user.userPhone" v-model="user.userPhone" class="input-with-select"></el-input>
+                        </div>
+                        <div class="info_div">地址:
+                            <el-input :disabled="disabled" :placeholder="user.userAddress" v-model="user.userAddress" class="input-with-select"></el-input>
+                        </div>
                     </div>
 
                 </el-main>
@@ -180,6 +202,9 @@
                 userInfo:[],//接收从后端接收的寻人启事数据
                 dialogFormVisible: false,
                 messageTitle:"",
+                disabled:true,
+                hidden:"none",
+                btnTitle:"修改信息"
             }
         },
         methods:{
@@ -212,13 +237,16 @@
                 window.location.href="userInfo"
             },
             //跳转到修改密码界面
+            hrefEditPassword(){
+                window.location.href="editPassword"
+            },
 
 
             handleOpen(key, keyPath) {
-                console.log(key, keyPath);
+                // console.log(key, keyPath);
             },
             handleClose(key, keyPath) {
-                console.log(key, keyPath);
+                // console.log(key, keyPath);
             },
 
             //获取用户信息
@@ -242,6 +270,54 @@
                     }
                 })
 
+            },
+            //修改用户信息按钮/取消修改按钮
+            edit(){
+                var _this = this
+                if(_this.btnTitle=="修改信息"){
+                    //修改显示内容
+                    _this.btnTitle="取消修改"
+                    //显示确认修改按钮
+                    _this.hidden=''
+                    //解除输入框禁用状态
+                    _this.disabled=false
+                }else if(_this.btnTitle=="取消修改"){
+                    //修改显示内容
+                    _this.btnTitle="修改信息"
+                    //禁用输入框
+                    _this.disabled=true
+                    //隐藏确认按钮
+                    _this.hidden='none'
+                    // 刷新数据
+                    _this.initData();
+                }
+            },
+            //确认修改
+            editUserInfo(){
+                var _this = this
+                $.ajax({
+                    url: "/user/editUserInfo",
+                    type: "post",
+                    dataType:"json",//表示接受后端传来的json数据
+                    contentType:"application/json",//表示发送的是json格式数据
+                    async:false,//关闭异步请求，先执行完该请求后才去执行其他请求
+                    //获取缓存的用户邮箱
+                    data:JSON.stringify(_this.user),
+
+                    success: function(data) { //表示数据请求成功之后执行的函数
+                        console.log(data);
+                        _this.$message({
+                            type:data.info=="修改成功"?"success":"error",
+                            message:data.info,
+                        })
+                        // 关闭确认提交按钮显示
+                        _this.hidden="none"
+                        //恢复输入框禁用
+                        _this.disabled=true
+                        //刷新用户信息
+                        _this.initData();
+                    }
+                })
             }
 
 

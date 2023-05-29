@@ -113,7 +113,7 @@
                 </template>
                 <el-menu-item-group>
                   <el-menu-item @click="hrefUserInfo" index="5-1">个人信息</el-menu-item>
-                  <el-menu-item index="5-2">修改密码</el-menu-item>
+                  <el-menu-item @click="hrefEditPassword" index="5-2">修改密码</el-menu-item>
                   <el-menu-item index="5-3">退出登录</el-menu-item>
                 </el-menu-item-group>
 
@@ -222,6 +222,9 @@
         window.location.href="userInfo"
       },
       //跳转到修改密码界面
+      hrefEditPassword(){
+        window.location.href="editPassword"
+      },
 
 
       handleOpen(key, keyPath) {
