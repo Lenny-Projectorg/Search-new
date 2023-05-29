@@ -58,6 +58,20 @@
     display: flex;
     justify-content: space-around;
   }
+  img{
+    width: 100px;
+    height: 130px;
+    /*        max-width: 100%;
+            max-height: 100%;*/
+  }
+  th,tr,td,table{
+    border: 0px solid #440e25;
+  }
+  .table{
+    margin: 0 auto;
+    opacity:0.8;
+    /*background-image: url("/res/images/14.png");*/
+  }
 </style>
 <body>
 
@@ -129,7 +143,37 @@
         <!--Main界面-->
         <el-main>
 
+          <!--开始更改-->
           <div>
+            <table class="table">
+              <caption>物品丢失列表</caption>
+              <thead>
+              <tr class="li_style">
+                <th style="width: 150px">照片</th>
+                <th style="width: 120px">物品名称</th>
+                <th style="width: 150px">特征</th>
+                <th style="width: 150px">失踪地点</th>
+                <th style="width: 200px">失踪时间</th>
+                <th style="width: 120px">联系人</th>
+                <th style="width: 150px">联系人手机号</th>
+              </tr>
+
+              <tr v-for="(item,index) in goodsInfo" class="li_style">
+                <td style="width: 150px"><img class="img" :src="item.goodsImg"></td><!--style="width: 120px;height: 150px"-->
+                <td style="width: 120px">{{item.goodsName}}</td>
+                <td style="width: 150px">{{item.goodsFeature}}</td>
+                <td style="width: 150px">{{item.goodsDisplace}}</td>
+                <td style="width: 200px">{{item.goodsDistime}}</td>
+                <td style="width: 120px">{{item.userName}}</td>
+                <td style="width: 150px">{{item.userPhone}}</td>
+                <!--  <td><img style="width: 60px;height: 65px" :src="item.humanityImg"></td>-->
+              </tr>
+
+            </table>
+          </div>
+          <!--更改结束-->
+
+          <!--<div>
             <ul>
               <li class="li_style">
                 <div>照片</div>
@@ -152,7 +196,7 @@
                 <div>{{item.userPhone}}</div>
               </li>
             </ul>
-          </div>
+          </div>-->
           <!--分页显示-->
           <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="curPage"
                          :page-sizes="[2, 3, 4, 5]" :page-size="goods.row" layout="total, sizes, prev, pager, next, jumper" :total="totalCount">

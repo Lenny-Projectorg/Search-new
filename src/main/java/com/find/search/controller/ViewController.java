@@ -58,4 +58,8 @@ public class ViewController {
     public String userInfo(){
         return "userInfo";
     }
+
+    //测试
+    @RequestMapping("/test_zz")
+    public String test_zz(){return "test_zz";}
 }
