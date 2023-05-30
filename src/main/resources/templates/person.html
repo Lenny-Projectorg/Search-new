@@ -95,7 +95,7 @@
                 <div style="font-weight:bold;">寻人列表</div>
                 <div style="float: right;margin-top: -60px">   <!-- right居左    margin-top 调整位置 -->
                     <el-input placeholder="请输入内容" v-model="humanity.humanityName" class="input-with-select">
-                        <el-button @click="search_btn" slot="append" icon="el-icon-search"></el-button>
+                        <el-button @click="search_btn" plain slot="append" icon="el-icon-search"></el-button>
                     </el-input>
                 </div>
             </div>
@@ -186,37 +186,37 @@
 <!--                            <caption><h2>寻人列表</h2></caption>-->
                             <thead>
                             <tr class="li_style">
-                                <th style="width: 120px">照片</th>
+                                <th style="width: 116px">照片</th>
                                 <th style="width: 50px">姓名</th>
-                                <th style="width: 40px">年龄</th>
-                                <th style="width: 40px">性别</th>
-                                <th style="width: 120px">出生日期</th>
+                                <th style="width: 35px">年龄</th>
+                                <th style="width: 35px">性别</th>
+                                <th style="width: 110px">出生日期</th>
                                 <th style="width: 100px">特征</th>
-                                <th style="width: 80px">失踪地点</th>
-                                <th style="width: 180px">失踪时间</th>
+                                <th style="width: 70px">失踪地点</th>
+                                <th style="width: 175px">失踪时间</th>
                                 <th style="width: 80px">联系人</th>
                                 <th style="width: 100px">联系人手机号</th>
-                                <th style="width: 80px">关系</th>
-                                <th style="width: 70px">是否找回</th>
-                                <th style="width: 120px"><button @click="insertView">我要发布</button></th>
+                                <th style="width: 65px">关系</th>
+                                <th style="width: 65px">是否找回</th>
+                                <th style="width: 180px"><el-button type="success" plain @click="insertView">我要发布</el-button></th>
                             </tr>
 
                             <tr v-for="(item,index) in humanityInfo" class="li_style">
-                                <td style="width: 120px"><img class="img" :src="item.humanityImg"></td>
+                                <td style="width: 116px"><img class="img" :src="item.humanityImg"></td>
                                 <td style="width: 50px">{{item.humanityName}}</td>
-                                <td style="width: 40px">{{item.humanityAge}}</td>
-                                <td style="width: 40px">{{item.humanitySex}}</td>
-                                <td style="width: 120px">{{item.humanityBirthday}}</td>
+                                <td style="width: 35px">{{item.humanityAge}}</td>
+                                <td style="width: 35px">{{item.humanitySex}}</td>
+                                <td style="width: 110px">{{item.humanityBirthday}}</td>
                                 <td style="width: 100px">{{item.humanityFeature}}</td>
-                                <td style="width: 80px">{{item.humanityDisplace}}</td>
-                                <td style="width: 180px">{{item.humanityDistime}}</td>
+                                <td style="width: 70px">{{item.humanityDisplace}}</td>
+                                <td style="width: 175px">{{item.humanityDistime}}</td>
                                 <td style="width: 80px">{{item.userName}}</td>
                                 <td style="width: 100px">{{item.userPhone}}</td>
-                                <td style="width: 80px">{{item.relationship}}</td>
-                                <td style="width: 70px">{{item.humanitySuccess}}</td>
-                                <td style="width: 120px">
-                                    <button @click="updateView(item)">修改</button>
-                                    <button @click="delHumanity(item)">删除</button></td>
+                                <td style="width: 65px">{{item.relationship}}</td>
+                                <td style="width: 65px">{{item.humanitySuccess}}</td>
+                                <td style="width: 180px">
+                                    <el-button type="primary" plain @click="updateView(item)">修改</el-button>
+                                    <el-button type="danger" plain @click="delHumanity(item)">删除</el-button></td>
                             </tr>
 
                         </table>

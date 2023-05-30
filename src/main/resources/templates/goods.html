@@ -14,11 +14,11 @@
 </head>
 <style>
   .el-header, .el-footer {
-    background-color: #2177b8;
+    background-color: #2f90b9;
     color: #333;
     text-align: center;
     line-height: 60px;
-    opacity: 0.8;
+    opacity: 0.7;
   }
 
   .el-aside {
@@ -95,7 +95,7 @@
         <div style="font-weight:bold;">物品丢失列表</div>
         <div style="float: right;margin-top: -60px">   <!-- right居左    margin-top 调整位置 -->
           <el-input placeholder="请输入内容" v-model="goods.goodsName" class="input-with-select">
-            <el-button @click="search_btn" slot="append" icon="el-icon-search"></el-button>
+            <el-button @click="search_btn" plain slot="append" icon="el-icon-search"></el-button>
           </el-input>
         </div>
       </div>

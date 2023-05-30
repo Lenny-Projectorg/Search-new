@@ -95,7 +95,7 @@
         <div style="font-weight:bold;">寻物列表</div>
         <div style="float: right;margin-top: -60px">   <!-- right居左    margin-top 调整位置 -->
           <el-input placeholder="请输入内容" v-model="goods.goodsName" class="input-with-select">
-            <el-button @click="search_btn" slot="append" icon="el-icon-search"></el-button>
+            <el-button @click="search_btn" plain slot="append" icon="el-icon-search"></el-button>
           </el-input>
         </div>
       </div>
@@ -191,27 +191,26 @@
                 <th style="width: 150px">照片</th>
                 <th style="width: 100px">物品名称</th>
                 <th style="width: 120px">物品描述</th>
-                <th style="width: 150px">失踪地点</th>
-                <th style="width: 200px">失踪时间</th>
-                <th style="width: 100px">联系人</th>
-                <th style="width: 150px">联系人手机号</th>
+                <th style="width: 120px">失踪地点</th>
+                <th style="width: 180px">失踪时间</th>
+                <th style="width: 80px">联系人</th>
+                <th style="width: 120px">联系人手机号</th>
                 <th style="width: 100px">是否找回</th>
-                <th style="width: 120px"><button @click="insertView">我要发布</button></th>
-
+                <th style="width: 220px"><el-button type="success" plain @click="insertView">我要发布</el-button></th>
               </tr>
 
               <tr v-for="(item,index) in goodsInfo" class="li_style">
                 <td style="width: 150px"><img class="img" :src="item.goodsImg"></td>
                 <td style="width: 100px">{{item.goodsName}}</td>
                 <td style="width: 120px">{{item.goodsFeature}}</td>
-                <td style="width: 150px">{{item.goodsDisplace}}</td>
-                <td style="width: 200px">{{item.goodsDistime}}</td>
-                <td style="width: 100px">{{item.userName}}</td>
-                <td style="width: 150px">{{item.userPhone}}</td>
+                <td style="width: 120px">{{item.goodsDisplace}}</td>
+                <td style="width: 180px">{{item.goodsDistime}}</td>
+                <td style="width: 80px">{{item.userName}}</td>
+                <td style="width: 120px">{{item.userPhone}}</td>
                 <td style="width: 100px">{{item.goodsSuccess}}</td>
-                <td style="width: 120px">
-                  <button @click="updateView(item)">修改</button>
-                  <button @click="delGoods(item)">删除</button></td>
+                <td style="width: 220px">
+                  <el-button type="primary" plain @click="updateView(item)">修改</el-button>
+                  <el-button type="danger" plain @click="delGoods(item)">删除</el-button></td>
               </tr>
             </table>
           </div>
