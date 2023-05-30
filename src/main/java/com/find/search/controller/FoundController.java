@@ -10,7 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/found")
-public class FoundController {
+public class FoundController extends BaseController{
     @Autowired
     FoundService foundService;
 

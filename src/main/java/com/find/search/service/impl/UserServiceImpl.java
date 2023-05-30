@@ -11,6 +11,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpSession;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Random;
@@ -32,7 +33,7 @@ public class UserServiceImpl implements UserService {
      * @return
      */
     @Override
-    public HashMap<String, Object> selectLogin(User user) {
+    public HashMap<String, Object> selectLogin(User user, HttpSession session) {
         //创建HashMap返回值集合
         HashMap<String,Object> map=new HashMap<>();
         //判断邮箱是否已经注册
@@ -56,6 +57,10 @@ public class UserServiceImpl implements UserService {
 
         //用户通过登录验证
         map.put("info","登录成功");
+
+        //设置用户登录Session
+        session.setAttribute("uid",user2.getUserId());
+        session.setAttribute("userEmail",user2.getUserEmail());
 
         return map;
     }

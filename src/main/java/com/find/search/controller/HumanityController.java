@@ -3,16 +3,21 @@ package com.find.search.controller;
 import com.find.search.entity.Humanity;
 import com.find.search.service.HumanityService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.system.ApplicationHome;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/humanity")
-public class HumanityController {
+public class HumanityController extends BaseController{
     @Autowired
     HumanityService humanityService;
 
@@ -61,10 +66,37 @@ public class HumanityController {
     @PostMapping("/insertHumanity{userEmail}")
     public HashMap<String,Object> insertHumanity(@RequestBody Humanity humanity,@PathVariable String userEmail){
 
-        System.out.println(humanity.getHumanityName());
-        System.out.println(humanity.getHumanityBirthday());
-        System.out.println(humanity.getHumanityDistime());
+//        System.out.println("humanity:"+humanity);
+
         return humanityService.insertHumanity(humanity,userEmail);
+    }
+
+
+    @RequestMapping("/upload")//图片上传
+    public String upload(MultipartFile file){
+        //file 校验
+        if(file.isEmpty()){
+            return "图片上传失败";
+        }
+        //file重命名
+        String originalFilename = file.getOriginalFilename();
+        String ext = "."+originalFilename.split("\\.")[1];
+        String uuid = UUID.randomUUID().toString().replace("-", "");
+        String filename = uuid+ext;
+        //上传图片
+        ApplicationHome applicationHome = new ApplicationHome(this.getClass());
+        String pre = applicationHome.getDir().getParentFile().getParentFile().getAbsolutePath()+
+                "\\src\\main\\resources\\static\\images\\";
+        String path = pre+filename;
+        try {
+            file.transferTo(new File(path));
+            System.out.println("path:"+path);
+            return filename;
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+
+        return "图片上传失败";
     }
 
 }

@@ -2,6 +2,7 @@ package com.find.search.service;
 
 import com.find.search.entity.User;
 
+import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 
 public interface UserService {
@@ -9,7 +10,7 @@ public interface UserService {
     HashMap<String, Object> insertUser(User user);
 
     //登录验证查询
-    HashMap<String, Object> selectLogin(User user);
+    HashMap<String, Object> selectLogin(User user, HttpSession session);
 
     //发送验证码
     HashMap<String, Object> sendCode(String userEmail);

@@ -5,11 +5,13 @@ import com.find.search.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 
 @RestController
 @RequestMapping("/user")
-public class UserController {
+public class UserController extends BaseController{
     @Autowired
     UserService userService;
 
@@ -19,9 +21,13 @@ public class UserController {
      * @return
      */
     @PostMapping("/login")
-    public HashMap<String,Object> login(@RequestBody User user){
-
-        return userService.selectLogin(user);
+    public HashMap<String,Object> login(@RequestBody User user, HttpSession session){
+        HashMap<String, Object> map = userService.selectLogin(user, session);
+        if(!(map.get("info").equals("该邮箱未注册")||map.get("info").equals("密码错误"))){
+            System.out.println("session的Uid:"+getUidFromSession(session));
+            System.out.println("session的username:"+getUserEmailSession(session));
+        }
+        return map;
     }
 
     @GetMapping("/sendCode")
@@ -69,5 +75,15 @@ public class UserController {
     @PostMapping("/editUserPassword")
     public HashMap<String,Object> editUserPassword(@RequestBody User user){
         return userService.editUserPassword(user);
+    }
+
+    @RequestMapping("/outLogin")
+    public HashMap<String,Object> outLogin(HttpServletRequest request){
+        HashMap<String, Object> map = new HashMap<>();
+        //清除用户登录Session
+        request.getSession().removeAttribute("uid");
+        request.getSession().removeAttribute("userEmail");
+        map.put("indo","退出成功");
+        return map;
     }
 }

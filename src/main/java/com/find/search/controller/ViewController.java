@@ -4,7 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller//视图控制器（返回、渲染页面）
-public class ViewController {
+public class ViewController extends BaseController{
     //注册界面
     @RequestMapping("/register")
     public String register(){

@@ -144,7 +144,7 @@
                                 <el-menu-item-group>
                                     <el-menu-item @click="hrefUserInfo" index="5-1">个人信息</el-menu-item>
                                     <el-menu-item @click="hrefEditPassword" index="5-2">修改密码</el-menu-item>
-                                    <el-menu-item index="5-3">退出登录</el-menu-item>
+                                    <el-menu-item @click="outLogin" index="5-3">退出登录</el-menu-item>
                                 </el-menu-item-group>
 
                             </el-submenu>
@@ -397,6 +397,19 @@
             },
             search_btn(){
                 this.loadDataPage();
+            },
+            outLogin(){
+                var _this = this
+                $.ajax({//表示数据请求成功之后执行的函数
+                    url: "/user/outLogin",
+                    type: "get",
+                    contentType:"application/json",//表示发送的是json格式数据
+                    dataType:"json",//表示接受后端传来的json数据
+                    success: function() {
+                        //页面跳转首页
+                        setTimeout("location.href='/login'",2000)
+                    }
+                })
             }
         },
         mounted(){

@@ -141,7 +141,7 @@
                 <el-menu-item-group>
                   <el-menu-item @click="hrefUserInfo" index="5-1">个人信息</el-menu-item>
                   <el-menu-item @click="hrefEditPassword" index="5-2">修改密码</el-menu-item>
-                  <el-menu-item index="5-3">退出登录</el-menu-item>
+                  <el-menu-item @click="outLogin" index="5-3">退出登录</el-menu-item>
                 </el-menu-item-group>
 
               </el-submenu>
@@ -190,43 +190,25 @@
           </div>
           <!--更改结束-->
 
-          <!--<div>
-            <ul>
-              <li class="li_style">
-                <div>照片</div>
-                <div>物品名称</div>
-                <div>物品描述</div>
-                <div>失踪地点</div>
-                <div>失踪时间</div>
-                <div>联系人</div>
-                <div>联系人手机号</div>
-                <div>是否找到</div>
-                <div><button @click="insertView">我要发布</button></div>
-              </li>
-              <li v-for="(item,index) in goodsInfo" class="li_style">
-                <div>
-                  <img style="width: 120px;height: 150px" :src="item.goodsImg">
-                </div>
-                <div>{{item.goodsName}}</div>
-                <div>{{item.goodsFeature}}</div>
-                <div>{{item.goodsDisplace}}</div>
-                <div>{{item.goodsDistime}}</div>
-                <div>{{item.userName}}</div>
-                <div>{{item.userPhone}}</div>
-                <div>{{item.goodsSuccess}}</div>
-                <div>
-                  <button @click="updateView(item)">修改</button>
-                  <button @click="delGoods(item)">删除</button>
-                </div>
-              </li>
-            </ul>
-          </div>-->
-
           <!--弹框界面-->
           <el-dialog :title="messageTitle" :visible.sync="dialogFormVisible">
             <el-form>
               <el-form-item label="照片" :label-width="formLabelWidth">
-                <el-input v-model="goods.goodsImg" autocomplete="off"></el-input>
+<!--                <el-input v-model="goods.goodsImg" autocomplete="off"></el-input>-->
+                <el-upload
+                        class="upload-demo"
+                        action="/humanity/upload"
+                        :on-preview="handlePreview"
+                        :on-remove="handleRemove"
+                        :before-remove="beforeRemove"
+                        :on-success="handle_success"
+                        multiple
+                        :limit="3"
+                        :on-exceed="handleExceed"
+                        :file-list="fileList">
+                  <el-button size="small" type="primary">点击上传</el-button>
+                  <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+                </el-upload>
               </el-form-item>
               <el-form-item label="物品名称" :label-width="formLabelWidth">
                 <el-input v-model="goods.goodsName" autocomplete="off"></el-input>
@@ -306,6 +288,7 @@
         formLabelWidth: '120px',
         dialogFormVisible: false,
         messageTitle:"",
+        fileList:[]//上传图片
       }
     },
     methods:{
@@ -630,8 +613,43 @@
         )
 
       },
+
+      // 上传图片
+      handleRemove(file, fileList) {
+        console.log(file, fileList);
+      },
+      handlePreview(file) {
+        console.log(file);
+      },
+      handleExceed(files, fileList) {
+        this.$message.warning(`当前限制选择 3 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
+      },
+      beforeRemove(file, fileList) {
+        return this.$confirm(`确定移除 ${ file.name }？`);
+      },
+      //上传成功回调路径
+      handle_success(res) {
+        console.log(res)
+        //判断添加寻人启事的头像输入框
+        this.goods.goodsImg="/res/images/"+res
+        this.$message.success('图片上传成功')
+      },
+
       search_btn(){
         this.loadDataPage();
+      },
+      outLogin(){
+        var _this = this
+        $.ajax({//表示数据请求成功之后执行的函数
+          url: "/user/outLogin",
+          type: "get",
+          contentType:"application/json",//表示发送的是json格式数据
+          dataType:"json",//表示接受后端传来的json数据
+          success: function() {
+            //页面跳转首页
+            setTimeout("location.href='/login'",2000)
+          }
+        })
       }
 
     },

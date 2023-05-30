@@ -141,7 +141,7 @@
                 <el-menu-item-group>
                   <el-menu-item @click="hrefUserInfo" index="5-1">个人信息</el-menu-item>
                   <el-menu-item @click="hrefEditPassword" index="5-2">修改密码</el-menu-item>
-                  <el-menu-item index="5-3">退出登录</el-menu-item>
+                  <el-menu-item @click="outLogin" index="5-3">退出登录</el-menu-item>
                 </el-menu-item-group>
 
               </el-submenu>
@@ -225,7 +225,21 @@
           <el-dialog :title="messageTitle" :visible.sync="dialogFormVisible">
             <el-form>
               <el-form-item label="照片" :label-width="formLabelWidth">
-                <el-input v-model="found.foundImg" autocomplete="off"></el-input>
+<!--                <el-input v-model="found.foundImg" autocomplete="off"></el-input>-->
+                <el-upload
+                        class="upload-demo"
+                        action="/humanity/upload"
+                        :on-preview="handlePreview"
+                        :on-remove="handleRemove"
+                        :before-remove="beforeRemove"
+                        :on-success="handle_success"
+                        multiple
+                        :limit="3"
+                        :on-exceed="handleExceed"
+                        :file-list="fileList">
+                  <el-button size="small" type="primary">点击上传</el-button>
+                  <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+                </el-upload>
               </el-form-item>
               <el-form-item label="物品名称" :label-width="formLabelWidth">
                 <el-input v-model="found.foundName" autocomplete="off"></el-input>
@@ -298,6 +312,7 @@
         formLabelWidth: '120px',
         dialogFormVisible: false,
         messageTitle:"",
+        fileList:[]//上传图片
       }
     },
     methods:{
@@ -624,8 +639,42 @@
         )
 
       },
+      // 上传图片
+      handleRemove(file, fileList) {
+        console.log(file, fileList);
+      },
+      handlePreview(file) {
+        console.log(file);
+      },
+      handleExceed(files, fileList) {
+        this.$message.warning(`当前限制选择 3 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
+      },
+      beforeRemove(file, fileList) {
+        return this.$confirm(`确定移除 ${ file.name }？`);
+      },
+      //上传成功回调路径
+      handle_success(res) {
+        console.log(res)
+        //判断添加寻人启事的头像输入框
+        this.found.foundImg="/res/images/"+res
+        this.$message.success('图片上传成功')
+      },
+
       search_btn(){
         this.loadDataPage();
+      },
+      outLogin(){
+        var _this = this
+        $.ajax({//表示数据请求成功之后执行的函数
+          url: "/user/outLogin",
+          type: "get",
+          contentType:"application/json",//表示发送的是json格式数据
+          dataType:"json",//表示接受后端传来的json数据
+          success: function() {
+            //页面跳转首页
+            setTimeout("location.href='/login'",2000)
+          }
+        })
       }
 
     },
