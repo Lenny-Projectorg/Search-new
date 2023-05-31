@@ -15,18 +15,22 @@
 <style>
 
     .el-header, .el-footer {
-        background-color: #B3C0D1;
+        background-color: #22a2c3;
         color: #333;
         text-align: center;
         line-height: 60px;
+        /*background-image: url("/res/images/4.jpg");*/
+        background-size: cover; /*背景图固定不变*/
+        opacity: 0.8;
     }
 
     .el-aside {
-        background-color: #D3DCE6;
+        background-color: #22a2c3;
         color: #333;
         text-align: center;
         line-height: 200px;
-
+        background-size: cover; /*背景图固定不变*/
+        opacity: 0.7;
     }
 
     .el-main {
@@ -44,6 +48,7 @@
     body{
         background-color: #93b5cf;
         background-image: url("/res/images/12.png");
+        background-size: cover; /*背景图固定不变*/
     }
 
     .el-container:nth-child(5) .el-aside,
@@ -81,6 +86,28 @@
     .beijingtu{
         background-image: url("/res/images/12.png");
     }
+    .foot{
+        /*    	background: #efefef; */
+        text-align: center;
+        height: 40px;
+        line-height:0px ;
+        position: absolute;      /*注册栏居中在屏幕中心*/
+        top: 1;/*顶部*/
+        left: 0;/*左部*/
+        bottom: 0;/*底部*/
+        right: 0;/*右部*/
+        margin: 0;/*边缘*/
+    }
+    .el-input-group{
+        width: 400px;
+    }
+
+    .input-with-select .el-input-group__prepend {
+        background-color: #fff;
+        display: flex;
+        align-items: center;
+        text-align:center;
+    }
 </style>
 <body>
 
@@ -89,9 +116,12 @@
     <el-container>
         <el-header>
             <div>
-                <el-input placeholder="请输入内容" v-model="humanity.humanityName" class="input-with-select">
-                    <el-button @click="search_btn" slot="append" icon="el-icon-search"></el-button>
-                </el-input>
+                <div style="font-weight:bold;">失踪人员列表</div>
+                <div style="float: right;margin-top: -60px;">   <!-- right居左    margin-top 调整位置 -->
+                    <el-input placeholder="请输入姓名" v-model="humanity.humanityName" class="input-with-select">
+                        <el-button @click="search_btn" plain slot="append"  icon="el-icon-search"></el-button>
+                    </el-input>
+                </div>
             </div>
         </el-header>
 <!--        Asia-->
@@ -123,13 +153,19 @@
                             <el-submenu index="4">
 
                                 <template slot="title">
-                                    <i class="el-icon-location"></i>
+                                    <i class="el-icon-s-promotion"></i>
                                     <span>我要发布</span>
                                 </template>
                                 <el-menu-item-group>
-                                    <el-menu-item @click="hrefPerson" index="4-1">我要寻人</el-menu-item>
-                                    <el-menu-item @click="hrefFindGoods" index="4-2">我要寻物</el-menu-item>
-                                    <el-menu-item @click="hrefLost" index="4-3">失物招领</el-menu-item>
+                                    <el-menu-item @click="hrefPerson" index="4-1">
+                                        <i class="el-icon-user-solid"></i>
+                                        我要寻人</el-menu-item>
+                                    <el-menu-item @click="hrefFindGoods" index="4-2">
+                                        <i class="el-icon-present"></i>
+                                        我要寻物</el-menu-item>
+                                    <el-menu-item @click="hrefLost" index="4-3">
+                                        <i class="el-icon-guide"></i>
+                                        失物招领</el-menu-item>
                                 </el-menu-item-group>
 
                             </el-submenu>
@@ -142,9 +178,15 @@
                                     <span>个人中心</span>
                                 </template>
                                 <el-menu-item-group>
-                                    <el-menu-item @click="hrefUserInfo" index="5-1">个人信息</el-menu-item>
-                                    <el-menu-item @click="hrefEditPassword" index="5-2">修改密码</el-menu-item>
-                                    <el-menu-item @click="outLogin" index="5-3">退出登录</el-menu-item>
+                                    <el-menu-item @click="hrefUserInfo" index="5-1">
+                                        <i class="el-icon-user"></i>
+                                        个人信息</el-menu-item>
+                                    <el-menu-item @click="hrefEditPassword" index="5-2">
+                                        <i class="el-icon-key"></i>
+                                        修改密码</el-menu-item>
+                                    <el-menu-item @click="outLogin" index="5-3">
+                                        <i class="el-icon-switch-button"></i>
+                                        退出登录</el-menu-item>
                                 </el-menu-item-group>
 
                             </el-submenu>
@@ -162,7 +204,7 @@
                     <div>
                         <table class="table">
 <!--                            <caption></caption>-->
-                            <h2>失踪人员列表</h2>
+<!--                            <h2>失踪人员列表</h2>-->
                             <thead>
                             <tr class="li_style">
                                 <th style="width: 150px">照片</th>
@@ -191,7 +233,7 @@
                                 <td style="width: 80px">{{item.userName}}</td>
                                 <td style="width: 100px">{{item.userPhone}}</td>
                                 <td style="width: 50px">{{item.relationship}}</td>
-                     <!--  <td><img style="width: 60px;height: 65px" :src="item.humanityImg"></td>-->
+                                <!--  <td><img style="width: 60px;height: 65px" :src="item.humanityImg"></td>-->
                             </tr>
 
                         </table>
@@ -239,7 +281,9 @@
                 </el-main>
                 <!--Footer界面-->
                 <el-footer>
-                    Is Tracing System © 2023 Pan-Pearl River Delta competition 贵ICP备20230803-888号 © 20计科专升本班-718 版权所有
+                    <tr class="foot">
+                        <b>&copy;寻人启事系统</b>
+                    </tr>
                 </el-footer>
             </el-container>
 

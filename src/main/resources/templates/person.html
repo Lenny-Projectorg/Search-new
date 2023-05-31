@@ -14,17 +14,19 @@
 </head>
 <style>
     .el-header, .el-footer {
-        background-color: #B3C0D1;
+        background-color: #619ac3;
         color: #333;
         text-align: center;
         line-height: 60px;
+        opacity: 0.8;
     }
 
     .el-aside {
-        background-color: #D3DCE6;
+        background-color: #619ac3;
         color: #333;
         text-align: center;
         line-height: 200px;
+        opacity: 0.7;
 
     }
 
@@ -38,6 +40,11 @@
 
     body > .el-container {
         margin-bottom: 40px;
+    }
+    body{
+        background-color: #93b5cf;
+        background-image: url("/res/images/12.png");
+        background-size: cover; /*背景图固定不变*/
     }
 
     .el-container:nth-child(5) .el-aside,
@@ -72,6 +79,13 @@
         opacity:0.8;
         /*background-image: url("/res/images/14.png");*/
     }
+    .el-input-group{
+        width: 400px;
+    }
+
+    .input-with-select .el-input-group__prepend {
+        background-color: #fff;
+    }
 </style>
 <body>
 
@@ -79,9 +93,12 @@
     <el-container>
         <el-header>
             <div>
-                <el-input placeholder="请输入内容" v-model="humanity.humanityName" class="input-with-select">
-                    <el-button @click="search_btn" slot="append" icon="el-icon-search"></el-button>
-                </el-input>
+                <div style="font-weight:bold;">寻人列表</div>
+                <div style="float: right;margin-top: -60px">   <!-- right居左    margin-top 调整位置 -->
+                    <el-input placeholder="请输入姓名" v-model="humanity.humanityName" class="input-with-select">
+                        <el-button @click="search_btn" plain slot="append" icon="el-icon-search"></el-button>
+                    </el-input>
+                </div>
             </div>
         </el-header>
         <!--        Asia-->
@@ -113,13 +130,22 @@
                             <el-submenu index="4">
 
                                 <template slot="title">
-                                    <i class="el-icon-location"></i>
+                                    <i class="el-icon-s-promotion"></i>
                                     <span>我要发布</span>
                                 </template>
                                 <el-menu-item-group>
-                                    <el-menu-item @click="hrefPerson" index="4-1">我要寻人</el-menu-item>
-                                    <el-menu-item @click="hrefFindGoods" index="4-2">我要寻物</el-menu-item>
-                                    <el-menu-item @click="hrefLost" index="4-3">失物招领</el-menu-item>
+                                    <el-menu-item @click="hrefPerson" index="4-1">
+                                        <i class="el-icon-user-solid"></i>
+                                        我要寻人
+                                    </el-menu-item>
+                                    <el-menu-item @click="hrefFindGoods" index="4-2">
+                                        <i class="el-icon-present"></i>
+                                        我要寻物
+                                    </el-menu-item>
+                                    <el-menu-item @click="hrefLost" index="4-3">
+                                        <i class="el-icon-guide"></i>
+                                        失物招领
+                                    </el-menu-item>
                                 </el-menu-item-group>
 
                             </el-submenu>
@@ -132,10 +158,17 @@
                                     <span>个人中心</span>
                                 </template>
                                 <el-menu-item-group>
-                                    <el-menu-item @click="hrefUserInfo" index="5-1">个人信息</el-menu-item>
-                                    <el-menu-item @click="hrefEditPassword" index="5-2">修改密码</el-menu-item>
-                                    <el-menu-item @click="outLogin" index="5-3">退出登录</el-menu-item>
+                                    <el-menu-item @click="hrefUserInfo" index="5-1">
+                                        <i class="el-icon-user"></i>
+                                        个人信息</el-menu-item>
+                                    <el-menu-item @click="hrefEditPassword" index="5-2">
+                                        <i class="el-icon-key"></i>
+                                        修改密码</el-menu-item>
+                                    <el-menu-item @click="outLogin" index="5-3">
+                                        <i class="el-icon-switch-button"></i>
+                                        退出登录</el-menu-item>
                                 </el-menu-item-group>
+
 
                             </el-submenu>
 
@@ -152,40 +185,40 @@
                     <!--开始更改-->
                     <div>
                         <table class="table">
-                            <caption><h2>寻人列表</h2></caption>
+                            <!--                            <caption><h2>寻人列表</h2></caption>-->
                             <thead>
                             <tr class="li_style">
-                                <th style="width: 120px">照片</th>
+                                <th style="width: 116px">照片</th>
                                 <th style="width: 50px">姓名</th>
-                                <th style="width: 40px">年龄</th>
-                                <th style="width: 40px">性别</th>
-                                <th style="width: 120px">出生日期</th>
+                                <th style="width: 35px">年龄</th>
+                                <th style="width: 35px">性别</th>
+                                <th style="width: 110px">出生日期</th>
                                 <th style="width: 100px">特征</th>
-                                <th style="width: 80px">失踪地点</th>
-                                <th style="width: 180px">失踪时间</th>
+                                <th style="width: 70px">失踪地点</th>
+                                <th style="width: 175px">失踪时间</th>
                                 <th style="width: 80px">联系人</th>
                                 <th style="width: 100px">联系人手机号</th>
-                                <th style="width: 80px">关系</th>
-                                <th style="width: 70px">是否找回</th>
-                                <th style="width: 120px"><button @click="insertView">我要发布</button></th>
+                                <th style="width: 65px">关系</th>
+                                <th style="width: 65px">是否找回</th>
+                                <th style="width: 180px"><el-button type="success" plain @click="insertView">我要发布</el-button></th>
                             </tr>
 
                             <tr v-for="(item,index) in humanityInfo" class="li_style">
-                                <td style="width: 120px"><img class="img" :src="item.humanityImg"></td>
+                                <td style="width: 116px"><img class="img" :src="item.humanityImg"></td>
                                 <td style="width: 50px">{{item.humanityName}}</td>
-                                <td style="width: 40px">{{item.humanityAge}}</td>
-                                <td style="width: 40px">{{item.humanitySex}}</td>
-                                <td style="width: 120px">{{item.humanityBirthday}}</td>
+                                <td style="width: 35px">{{item.humanityAge}}</td>
+                                <td style="width: 35px">{{item.humanitySex}}</td>
+                                <td style="width: 110px">{{item.humanityBirthday}}</td>
                                 <td style="width: 100px">{{item.humanityFeature}}</td>
-                                <td style="width: 80px">{{item.humanityDisplace}}</td>
-                                <td style="width: 180px">{{item.humanityDistime}}</td>
+                                <td style="width: 70px">{{item.humanityDisplace}}</td>
+                                <td style="width: 175px">{{item.humanityDistime}}</td>
                                 <td style="width: 80px">{{item.userName}}</td>
                                 <td style="width: 100px">{{item.userPhone}}</td>
-                                <td style="width: 80px">{{item.relationship}}</td>
-                                <td style="width: 70px">{{item.humanitySuccess}}</td>
-                                <td style="width: 120px">
-                                    <button @click="updateView(item)">修改</button>
-                                    <button @click="delHumanity(item)">删除</button></td>
+                                <td style="width: 65px">{{item.relationship}}</td>
+                                <td style="width: 65px">{{item.humanitySuccess}}</td>
+                                <td style="width: 180px">
+                                    <el-button type="primary" plain @click="updateView(item)">修改</el-button>
+                                    <el-button type="danger" plain @click="delHumanity(item)">删除</el-button></td>
                             </tr>
 
                         </table>
@@ -282,7 +315,11 @@
 
                 </el-main>
                 <!--Footer界面-->
-                <el-footer>Footer</el-footer>
+                <el-footer>
+                    <tr class="foot">
+                        <b>&copy;寻人启事系统</b>
+                    </tr>
+                </el-footer>
             </el-container>
         </el-container>
     </el-container>
